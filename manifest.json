@@ -1,0 +1,16 @@
+{
+  "name": "Grab",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "Page scraping made easy",
+  "browser_action": {
+    "default_icon": "icon.png"
+  },
+  "background": {
+	"scripts": ["background.js"]
+  },
+  "permissions": [
+  	"tabs",
+	"http://*/*"
+  ]
+}
