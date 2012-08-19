@@ -5,7 +5,7 @@
 	function highlightElement(e) {
 		var target = e.target,
 			box = target.getBoundingClientRect();
-		css(selection, { 
+		$.css(selection, { 
 			display : 'block',
 			top : box.top + window.pageYOffset,
 			left : box.left + window.pageXOffset,
@@ -14,34 +14,16 @@
 		});
 	}
 
-	function css(element, styles) {
-		_.each(styles, function(value, key) {
-			element.style[key] = _.isNumber(value) ? value + 'px' : value;
-		});
-	}
-
-	function createElement(parentNode, name, text, styles) {
-		if (!_.isString(text)) {
-			styles = text;
-			text = '';
-		}
-		var element = document.createElement(name);
-		css(element, styles || {});
-		element.innerText = text;
-		parentNode.appendChild(element);
-		return element;
-	}
-	
 	function startTracking() {
 		document.addEventListener('mousemove', highlightElement, false);
 	}
 
 	function stopTracking() {
-		css(selection, { display : 'hidden' });
+		$.css(selection, { display : 'hidden' });
 		document.removeEventListener('mousemove', highlightElement);
 	}
 
-	var controls = createElement(document.body, 'div', {
+	var controls = $.createElement(document.body, 'div', {
 		position : 'absolute',
 		width : 120,
 		height : 25,
@@ -50,15 +32,15 @@
 		right : 30
 	});
 
-	var add = createElement(controls, 'button', 'add', {
+	var add = $.createElement(controls, 'button', 'add', {
 		
 	});
 
-	var remove = createElement(controls, 'button', 'remove', {
+	var remove = $.createElement(controls, 'button', 'remove', {
 		
 	});
 
-	var selection = createElement(document.body, 'div', {
+	var selection = $.createElement(document.body, 'div', {
 		'pointer-events' : 'none',
 		display : 'hidden',
 		position : 'absolute',
