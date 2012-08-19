@@ -31,15 +31,8 @@ window.grab = (function() {
 				});		
 			});
 			return base;
-		},
-
-		startTracking : function() {
-			
-		},
-
-		stopTracking : function() {
-			
 		}
+
 	};
 
 	return grab;
