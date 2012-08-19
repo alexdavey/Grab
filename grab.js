@@ -1,4 +1,4 @@
-window.grab = (function() {
+window.__grab = (function() {
 	
 	"use strict";
 

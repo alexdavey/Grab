@@ -1,0 +1,28 @@
+#grab-currentSelection {
+	pointer-events : none;
+	display : hidden;
+	position : absolute;
+	background : blue;
+	opacity : 0.5;
+}
+
+#grab-controls {
+	position : fixed;
+	width : 120px;
+	height : 25px;
+	background : black;
+	top : 30px;
+	right : 20px;
+}
+
+.grab-selected {
+	background : green;
+	opacity : 0.5;
+	position : absolute;
+}
+
+.grab-extrapolated {
+	background : yellow;
+	opacity : 0.5;
+	position : absolute;
+}
