@@ -3,11 +3,11 @@ window.__grab = (function(window, document, undefined) {
 	"use strict";
 
 	function getClass(className) {
-		return document.getElementsByClassName(className);
+		return _.toArray(document.getElementsByClassName(className));
 	}
 
 	function getTag(tagName) {
-		return document.getElementsByTagName(tagName);
+		return _.toArray(document.getElementsByTagName(tagName));
 	}
 
 	function filterObject(object, predicate) {
@@ -48,20 +48,19 @@ window.__grab = (function(window, document, undefined) {
 		},
 
 		find : function(model) {
-			var matches = [];
+			var matches = [],
+				parentNode;
 
-			matches.concat(getClass(model.className));
-			matches.concat(getTag(model.nodeName));
+			matches = matches.concat(getClass(model.className));
+			matches = matches.concat(getTag(model.nodeName));
 
-			if (model.parentNode) {
-				matches.concat(getTag(model.parentNode.nodeName));
-				matches.concat(getClassName(model.parentNode.className));
-				matches.concat(model.parentNode.childNodes);
+			if (parentNode = model.parentNode) {
+				matches = matches.concat(getTag(parentNode.nodeName));
+				matches = matches.concat(getClassName(parentNode.className));
+				matches = matches.concat(parentNode.childNodes);
 			}
 
-			return _.filter(matches, function(match) {
-				return grab.match(model, match);
-			});
+			return _.filter(matches, _.bind(grab.match, grab, model));
 		}
 		
 	};

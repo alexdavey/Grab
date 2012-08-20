@@ -30,7 +30,6 @@
 
 	function startAnalysis() {
 		var model = grab.toModel(grab.same(selectedElements));
-		console.log(model);
 		console.log(grab.find(model));
 	}
 
@@ -59,6 +58,9 @@
 		var target = e.target;
 		if (!tracking || isMenuElement(e.target)) return;
 		selectedElements.push(target);
+		e.stopImmediatePropagation();
+		e.preventDefault();
+		return false;
 	}, false);
 
 }(window, document, __grab));
