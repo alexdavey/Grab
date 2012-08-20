@@ -1,6 +1,14 @@
-window.__grab = (function() {
+window.__grab = (function(window, document, undefined) {
 	
 	"use strict";
+
+	function getClass(className) {
+		return document.getElementsByClassName(className);
+	}
+
+	function getTag(tagName) {
+		return document.getElementsByTagName(tagName);
+	}
 
 	function filterObject(object, predicate) {
 		var clone = {};
@@ -29,10 +37,35 @@ window.__grab = (function() {
 				});		
 			});
 			return base;
+		},
+
+		match : function(a, b) {
+			for (var i in a) {
+				if (!a.hasOwnProperty(i)) continue;
+				if (!b.hasOwnProperty(i) || b[i] !== a[i])  return false;
+			}
+			return true;
+		},
+
+		find : function(model) {
+			var matches = [];
+
+			matches.concat(getClass(model.className));
+			matches.concat(getTag(model.nodeName));
+
+			if (model.parentNode) {
+				matches.concat(getTag(model.parentNode.nodeName));
+				matches.concat(getClassName(model.parentNode.className));
+				matches.concat(model.parentNode.childNodes);
+			}
+
+			return _.filter(matches, function(match) {
+				return grab.match(model, match);
+			});
 		}
 		
 	};
 
 	return grab;
 	
-}());
+}(window, document));

@@ -29,7 +29,9 @@
 	}
 
 	function startAnalysis() {
-		console.log(grab.toModel(grab.same(selectedElements)));
+		var model = grab.toModel(grab.same(selectedElements));
+		console.log(model);
+		console.log(grab.find(model));
 	}
 
 	function isMenuElement(target) {
@@ -53,7 +55,7 @@
 	remove.addEventListener('click', stopTracking, false);
 	analyse.addEventListener('click', startAnalysis, false);
 
-	document.addEventListener('click', function(e) {
+	document.addEventListener('mousedown', function(e) {
 		var target = e.target;
 		if (!tracking || isMenuElement(e.target)) return;
 		selectedElements.push(target);
