@@ -13,7 +13,6 @@ window.__grab = (function() {
 	var grab = {
 			
 		toModel : function(node) {
-			console.dir(node);
 			return filterObject(node, function(value, key) {
 				return (typeof node[key] != 'undefined' && value !== null && value !== "") &&
 					(_.isString(value) || _.isNumber(value));
@@ -21,8 +20,7 @@ window.__grab = (function() {
 		},
 
 		same : function(models) {
-			var base = toModel(models.splice(0, 1)[0]);
-			console.log('before', base);
+			var base = grab.toModel(models.splice(0, 1)[0]);
 			_.each(models, function(model) {
 				_.each(model, function(value, key) {
 					if (!base[key] || base[key] !== value) {
