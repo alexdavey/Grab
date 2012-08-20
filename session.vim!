@@ -1,0 +1,673 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:cpo_save=&cpo
+set cpo&vim
+imap <D-BS> 
+imap <M-BS> 
+imap <M-Down> }
+inoremap <D-Down> <C-End>
+imap <M-Up> {
+inoremap <D-Up> <C-Home>
+noremap! <M-Right> <C-Right>
+noremap! <D-Right> <End>
+noremap! <M-Left> <C-Left>
+noremap! <D-Left> <Home>
+inoremap <Plug>ZenCodingAnchorizeSummary :call zencoding#anchorizeURL(1)a
+inoremap <Plug>ZenCodingAnchorizeURL :call zencoding#anchorizeURL(0)a
+inoremap <Plug>ZenCodingRemoveTag :call zencoding#removeTag()a
+inoremap <Plug>ZenCodingSplitJoinTagInsert :call zencoding#splitJoinTag()
+inoremap <Plug>ZenCodingToggleComment :call zencoding#toggleComment()a
+inoremap <Plug>ZenCodingImageSize :call zencoding#imageSize()a
+inoremap <Plug>ZenCodingPrev :call zencoding#moveNextPrev(1)
+inoremap <Plug>ZenCodingNext :call zencoding#moveNextPrev(0)
+inoremap <Plug>ZenCodingBalanceTagOutwardInsert :call zencoding#balanceTag(-1)
+inoremap <Plug>ZenCodingBalanceTagInwardInsert :call zencoding#balanceTag(1)
+inoremap <Plug>ZenCodingExpandWord u:call zencoding#expandAbbr(1,"")a
+inoremap <Plug>ZenCodingExpandAbbr u:call zencoding#expandAbbr(0,"")a
+inoremap <silent> <S-Tab> =BackwardsSnippet()
+inoremap <C-Tab> 	
+inoremap <Plug>ClojureReplDownHistory :call b:vimclojure_repl.downHistory()
+inoremap <Plug>ClojureReplUpHistory :call b:vimclojure_repl.upHistory()
+inoremap <Plug>ClojureReplEnterHook :call b:vimclojure_repl.enterHook()
+imap <Right> <Nop>
+imap <Left> <Nop>
+imap <Down> <Nop>
+imap <Up> <Nop>
+nmap <silent>  :wincmd h
+snoremap <silent> 	 i<Right>=TriggerSnippet()
+nmap <silent> <NL> :wincmd j
+nmap <silent>  :wincmd k
+nmap <silent>  :wincmd l
+snoremap  b<BS>
+vmap c <Plug>ZenCodingCodePretty
+nmap A <Plug>ZenCodingAnchorizeSummary
+nmap a <Plug>ZenCodingAnchorizeURL
+nmap k <Plug>ZenCodingRemoveTag
+nmap j <Plug>ZenCodingSplitJoinTagNormal
+vmap m <Plug>ZenCodingMergeLines
+nmap / <Plug>ZenCodingToggleComment
+nmap i <Plug>ZenCodingImageSize
+nmap N <Plug>ZenCodingPrev
+nmap n <Plug>ZenCodingNext
+vmap D <Plug>ZenCodingBalanceTagOutwardVisual
+nmap D <Plug>ZenCodingBalanceTagOutwardNormal
+vmap d <Plug>ZenCodingBalanceTagInwardVisual
+nmap d <Plug>ZenCodingBalanceTagInwardNormal
+nmap , <Plug>ZenCodingExpandNormal
+vmap , <Plug>ZenCodingExpandVisual
+noremap s :TCommentAs =&ft_
+noremap n :TCommentAs =&ft 
+noremap a :TCommentAs 
+noremap b :TCommentBlock
+vnoremap <silent> r :TCommentRight
+vnoremap <silent> i :TCommentInline
+nnoremap <silent> r :TCommentRight
+onoremap <silent> r :TCommentRight
+noremap   :TComment 
+noremap <silent> p m`vip:TComment``
+vnoremap <silent>  :TCommentMaybeInline
+nnoremap <silent>  :TComment
+onoremap <silent>  :TComment
+nmap   :
+snoremap % b<BS>%
+snoremap ' b<BS>'
+noremap ,_s :TCommentAs =&ft_
+noremap ,_n :TCommentAs =&ft 
+noremap ,_a :TCommentAs 
+noremap ,_b :TCommentBlock
+xnoremap <silent> ,_r :TCommentRight
+nnoremap <silent> ,_r :TCommentRight
+snoremap <silent> ,_r :TCommentRight
+onoremap <silent> ,_r :TCommentRight
+xnoremap <silent> ,_i :TCommentInline
+noremap ,_  :TComment 
+noremap <silent> ,_p vip:TComment
+xnoremap <silent> ,__ :TCommentMaybeInline
+nnoremap <silent> ,__ :TComment
+snoremap <silent> ,__ :TComment
+onoremap <silent> ,__ :TComment
+map <silent> ,p <Plug>PeepOpen
+nmap <silent> ,ucs :call C_RemoveGuiMenus()
+nmap <silent> ,lcs :call C_CreateGuiMenus()
+nmap ,a <Plug>ToggleAutoCloseMappings
+vnoremap <silent> ,e :call EasyMotionE(1, 0)
+onoremap <silent> ,e :call EasyMotionE(0, 0)
+nnoremap <silent> ,e :call EasyMotionE(0, 0)
+vnoremap <silent> ,E :call EasyMotionEW(1, 0)
+onoremap <silent> ,E :call EasyMotionEW(0, 0)
+nnoremap <silent> ,E :call EasyMotionEW(0, 0)
+vnoremap <silent> ,B :call EasyMotionWBW(1, 1)
+onoremap <silent> ,B :call EasyMotionWBW(0, 1)
+nnoremap <silent> ,B :call EasyMotionWBW(0, 1)
+vnoremap <silent> ,W :call EasyMotionWBW(1, 0)
+onoremap <silent> ,W :call EasyMotionWBW(0, 0)
+nnoremap <silent> ,W :call EasyMotionWBW(0, 0)
+vnoremap <silent> ,j :call EasyMotionJK(1, 0)
+onoremap <silent> ,j :call EasyMotionJK(0, 0)
+nnoremap <silent> ,j :call EasyMotionJK(0, 0)
+vnoremap <silent> ,T :call EasyMotionT(1, 1)
+onoremap <silent> ,T :call EasyMotionT(0, 1)
+nnoremap <silent> ,T :call EasyMotionT(0, 1)
+vnoremap <silent> ,ge :call EasyMotionE(1, 1)
+onoremap <silent> ,ge :call EasyMotionE(0, 1)
+nnoremap <silent> ,ge :call EasyMotionE(0, 1)
+vnoremap <silent> ,w :call EasyMotionWB(1, 0)
+onoremap <silent> ,w :call EasyMotionWB(0, 0)
+nnoremap <silent> ,w :call EasyMotionWB(0, 0)
+vnoremap <silent> ,f :call EasyMotionF(1, 0)
+onoremap <silent> ,f :call EasyMotionF(0, 0)
+nnoremap <silent> ,f :call EasyMotionF(0, 0)
+vnoremap <silent> ,F :call EasyMotionF(1, 1)
+onoremap <silent> ,F :call EasyMotionF(0, 1)
+nnoremap <silent> ,F :call EasyMotionF(0, 1)
+vnoremap <silent> ,t :call EasyMotionT(1, 0)
+onoremap <silent> ,t :call EasyMotionT(0, 0)
+nnoremap <silent> ,t :call EasyMotionT(0, 0)
+vnoremap <silent> ,k :call EasyMotionJK(1, 1)
+onoremap <silent> ,k :call EasyMotionJK(0, 1)
+nnoremap <silent> ,k :call EasyMotionJK(0, 1)
+vnoremap <silent> ,b :call EasyMotionWB(1, 1)
+onoremap <silent> ,b :call EasyMotionWB(0, 1)
+nnoremap <silent> ,b :call EasyMotionWB(0, 1)
+vnoremap <silent> ,gE :call EasyMotionEW(1, 1)
+onoremap <silent> ,gE :call EasyMotionEW(0, 1)
+nnoremap <silent> ,gE :call EasyMotionEW(0, 1)
+nmap ,q ,p
+nmap ;r :w:RRB
+nmap ;l :so session.vim
+nmap ;s :mksession session.vim!
+nnoremap ;n :NumbersToggle
+nmap ;g :GhciFile
+nmap <silent> ;/ :nohlsearch
+nmap ;rc tabnew $MYVIMRC
+nmap ;t :NERDTreeToggle
+nmap ;w <ctrl>ww
+imap § 
+snoremap U b<BS>U
+snoremap \ b<BS>\
+snoremap ^ b<BS>^
+snoremap ` b<BS>`
+nmap gx <Plug>NetrwBrowseX
+xnoremap <silent> gC :TCommentMaybeInline
+nnoremap <silent> gCc :let w:tcommentPos = getpos(".") | set opfunc=tcomment#OperatorLineAnywayg@$
+nnoremap <silent> gC :let w:tcommentPos = getpos(".") | set opfunc=tcomment#OperatorAnywayg@
+xnoremap <silent> gc :TCommentMaybeInline
+nnoremap <silent> gcc :let w:tcommentPos = getpos(".") | set opfunc=tcomment#OperatorLineg@$
+nnoremap <silent> gc :let w:tcommentPos = getpos(".") | set opfunc=tcomment#Operatorg@
+map <M-Down> }
+noremap <D-Down> <C-End>
+map <M-Up> {
+noremap <D-Up> <C-Home>
+noremap <M-Right> <C-Right>
+noremap <D-Right> <End>
+noremap <M-Left> <C-Left>
+noremap <D-Left> <Home>
+map <Left> <Nop>
+map <Right> <Nop>
+snoremap <BS> b<BS>
+snoremap <silent> <S-Tab> i<Right>=BackwardsSnippet()
+nnoremap <silent> <Plug>NetrwBrowseX :call netrw#NetrwBrowseX(expand("<cWORD>"),0)
+vnoremap <Plug>ZenCodingCodePretty :call zencoding#codePretty()
+nnoremap <Plug>ZenCodingAnchorizeSummary :call zencoding#anchorizeURL(1)
+nnoremap <Plug>ZenCodingAnchorizeURL :call zencoding#anchorizeURL(0)
+nnoremap <Plug>ZenCodingRemoveTag :call zencoding#removeTag()
+nnoremap <Plug>ZenCodingSplitJoinTagNormal :call zencoding#splitJoinTag()
+vnoremap <Plug>ZenCodingMergeLines :call zencoding#mergeLines()
+nnoremap <Plug>ZenCodingToggleComment :call zencoding#toggleComment()
+nnoremap <Plug>ZenCodingImageSize :call zencoding#imageSize()
+nnoremap <Plug>ZenCodingPrev :call zencoding#moveNextPrev(1)
+nnoremap <Plug>ZenCodingNext :call zencoding#moveNextPrev(0)
+vnoremap <Plug>ZenCodingBalanceTagOutwardVisual :call zencoding#balanceTag(-2)
+nnoremap <Plug>ZenCodingBalanceTagOutwardNormal :call zencoding#balanceTag(-1)
+vnoremap <Plug>ZenCodingBalanceTagInwardVisual :call zencoding#balanceTag(2)
+nnoremap <Plug>ZenCodingBalanceTagInwardNormal :call zencoding#balanceTag(1)
+nnoremap <Plug>ZenCodingExpandWord :call zencoding#expandAbbr(1,"")
+nnoremap <Plug>ZenCodingExpandNormal :call zencoding#expandAbbr(3,"")
+vnoremap <Plug>ZenCodingExpandVisual :call zencoding#expandAbbr(2,"")
+nnoremap <Plug>ClojureCloseResultBuffer :call vimclojure#ResultBuffer.CloseBuffer()
+nnoremap <Plug>ClojureStartLocalRepl :call vimclojure#ProtectedPlug(function("vimclojure#StartRepl"), [ b:vimclojure_namespace ])
+nnoremap <Plug>ClojureStartRepl :call vimclojure#ProtectedPlug(function("vimclojure#StartRepl"), [  ])
+nnoremap <Plug>ClojureEvalParagraph :call vimclojure#ProtectedPlug(function("vimclojure#EvalParagraph"), [  ])
+nnoremap <Plug>ClojureEvalToplevel :call vimclojure#ProtectedPlug(function("vimclojure#EvalToplevel"), [  ])
+vnoremap <Plug>ClojureEvalBlock :call vimclojure#ProtectedPlug(function("vimclojure#EvalBlock"), [  ])
+nnoremap <Plug>ClojureEvalLine :call vimclojure#ProtectedPlug(function("vimclojure#EvalLine"), [  ])
+nnoremap <Plug>ClojureEvalFile :call vimclojure#ProtectedPlug(function("vimclojure#EvalFile"), [  ])
+nnoremap <Plug>ClojureMacroExpand1 :call vimclojure#ProtectedPlug(function("vimclojure#MacroExpand"), [ 1 ])
+nnoremap <Plug>ClojureMacroExpand :call vimclojure#ProtectedPlug(function("vimclojure#MacroExpand"), [ 0 ])
+nnoremap <Plug>ClojureRunTests :call vimclojure#ProtectedPlug(function("vimclojure#RunTests"), [ 0 ])
+nnoremap <Plug>ClojureRequireFileAll :call vimclojure#ProtectedPlug(function("vimclojure#RequireFile"), [ 1 ])
+nnoremap <Plug>ClojureRequireFile :call vimclojure#ProtectedPlug(function("vimclojure#RequireFile"), [ 0 ])
+nnoremap <Plug>ClojureGotoSourceInteractive :call vimclojure#ProtectedPlug(function("vimclojure#GotoSource"), [ input("Symbol to go to: ") ])
+nnoremap <Plug>ClojureGotoSourceWord :call vimclojure#ProtectedPlug(function("vimclojure#GotoSource"), [ expand("<cword>") ])
+nnoremap <Plug>ClojureSourceLookupInteractive :call vimclojure#ProtectedPlug(function("vimclojure#SourceLookup"), [ input("Symbol to look up: ") ])
+nnoremap <Plug>ClojureSourceLookupWord :call vimclojure#ProtectedPlug(function("vimclojure#SourceLookup"), [ expand("<cword>") ])
+nnoremap <Plug>ClojureMetaLookupInteractive :call vimclojure#ProtectedPlug(function("vimclojure#MetaLookup"), [ input("Symbol to look up: ") ])
+nnoremap <Plug>ClojureMetaLookupWord :call vimclojure#ProtectedPlug(function("vimclojure#MetaLookup"), [ expand("<cword>") ])
+nnoremap <Plug>ClojureFindDoc :call vimclojure#ProtectedPlug(function("vimclojure#FindDoc"), [  ])
+nnoremap <Plug>ClojureJavadocLookupInteractive :call vimclojure#ProtectedPlug(function("vimclojure#JavadocLookup"), [ input("Class to lookup: ") ])
+nnoremap <Plug>ClojureJavadocLookupWord :call vimclojure#ProtectedPlug(function("vimclojure#JavadocLookup"), [ expand("<cword>") ])
+nnoremap <Plug>ClojureDocLookupInteractive :call vimclojure#ProtectedPlug(function("vimclojure#DocLookup"), [ input("Symbol to look up: ") ])
+nnoremap <Plug>ClojureDocLookupWord :call vimclojure#ProtectedPlug(function("vimclojure#DocLookup"), [ expand("<cword>") ])
+nnoremap <Plug>ClojureAddToLispWords :call vimclojure#ProtectedPlug(function("vimclojure#AddToLispWords"), [ expand("<cword>") ])
+map <Down> <Nop>
+map <Up> <Nop>
+nmap <silent> <C-Right> :wincmd l
+nmap <silent> <C-Left> :wincmd h
+nmap <silent> <C-Down> :wincmd j
+nmap <silent> <C-Up> :wincmd k
+xmap <BS> "-d
+inoremap <silent> 	 =TriggerSnippet()
+imap  <Plug>SuperTabForward
+imap  <Plug>SuperTabBackward
+inoremap <silent> 	 =ShowAvailableSnips()
+imap A <Plug>ZenCodingAnchorizeSummary
+imap a <Plug>ZenCodingAnchorizeURL
+imap k <Plug>ZenCodingRemoveTag
+imap j <Plug>ZenCodingSplitJoinTagInsert
+imap / <Plug>ZenCodingToggleComment
+imap i <Plug>ZenCodingImageSize
+imap N <Plug>ZenCodingPrev
+imap n <Plug>ZenCodingNext
+imap D <Plug>ZenCodingBalanceTagOutwardInsert
+imap d <Plug>ZenCodingBalanceTagInwardInsert
+imap ; <Plug>ZenCodingExpandWord
+imap , <Plug>ZenCodingExpandAbbr
+inoremap s :TCommentAs =&ft_
+inoremap n :TCommentAs =&ft 
+inoremap a :TCommentAs 
+inoremap b :TCommentBlock
+inoremap <silent> r :TCommentRight
+inoremap   :TComment 
+inoremap <silent> p :norm! m`vip:TComment``
+inoremap <silent>  :TComment
+imap [ []<Left>
+inoremap jk 
+abbr ;s :cd ~/Sites/:e.
+abbr open :! open -a Google\ Chrome.app %:p
+let &cpo=s:cpo_save
+unlet s:cpo_save
+set autoindent
+set background=dark
+set backspace=indent,eol,start
+set fileencodings=ucs-bom,utf-8,default,latin1
+set guioptions=egmrt
+set guitablabel=%M%t
+set helplang=en
+set history=1000
+set hlsearch
+set ignorecase
+set incsearch
+set langmenu=none
+set laststatus=2
+set mouse=a
+set omnifunc=javascriptcomplete#CompleteJS
+set printexpr=system('open\ -a\ Preview\ '.v:fname_in)\ +\ v:shell_error
+set shiftround
+set shiftwidth=4
+set showmatch
+set smartcase
+set smartindent
+set smarttab
+set splitbelow
+set tabstop=4
+set termencoding=utf-8
+set visualbell
+set wildignore=*.swp,.DS_Store
+set wildmode=list:longest
+set window=68
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+cd ~/Sites/grab
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+badd +7 ~/Sites/grab/ui.js
+badd +1 ui.css
+badd +64 ~/.vimrc
+badd +1 ~/Sites/grab/dom.js
+badd +0 ~/Sites/grab/grab.js
+args ~/Sites/grab/ui.js
+edit ~/Sites/grab/grab.js
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+wincmd w
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+exe '1resize ' . ((&lines * 33 + 34) / 69)
+exe 'vert 1resize ' . ((&columns * 101 + 101) / 203)
+exe '2resize ' . ((&lines * 33 + 34) / 69)
+exe 'vert 2resize ' . ((&columns * 101 + 101) / 203)
+exe 'vert 3resize ' . ((&columns * 101 + 101) / 203)
+argglobal
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=80
+setlocal colorcolumn=80
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=//%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+set cursorline
+setlocal cursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'javascript'
+setlocal filetype=javascript
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=2
+setlocal imsearch=2
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal nomacmeta
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=javascriptcomplete#CompleteJS
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!Pl#Statusline(0,0)
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'javascript'
+setlocal syntax=javascript
+endif
+setlocal tabstop=4
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 24 - ((23 * winheight(0) + 16) / 33)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+24
+normal! 045l
+wincmd w
+argglobal
+edit ui.css
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=80
+setlocal colorcolumn=80
+setlocal comments=s1:/*,mb:*,ex:*/
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+set cursorline
+setlocal cursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'css'
+setlocal filetype=css
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=2
+setlocal imsearch=2
+setlocal include=^\\s*@import\\s\\+\\%(url(\\)\\=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal nomacmeta
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=csscomplete#CompleteCSS
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!Pl#Statusline(0,0)
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'css'
+setlocal syntax=css
+endif
+setlocal tabstop=4
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 4 - ((3 * winheight(0) + 16) / 33)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+4
+normal! 020l
+wincmd w
+argglobal
+edit ~/Sites/grab/ui.js
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=80
+setlocal colorcolumn=80
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=//%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+set cursorline
+setlocal cursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'javascript'
+setlocal filetype=javascript
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=2
+setlocal imsearch=2
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal nomacmeta
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=javascriptcomplete#CompleteJS
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal smartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!Pl#Statusline(0,1)
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'javascript'
+setlocal syntax=javascript
+endif
+setlocal tabstop=4
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 30 - ((29 * winheight(0) + 33) / 67)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+30
+normal! 0
+wincmd w
+3wincmd w
+exe '1resize ' . ((&lines * 33 + 34) / 69)
+exe 'vert 1resize ' . ((&columns * 101 + 101) / 203)
+exe '2resize ' . ((&lines * 33 + 34) / 69)
+exe 'vert 2resize ' . ((&columns * 101 + 101) / 203)
+exe 'vert 3resize ' . ((&columns * 101 + 101) / 203)
+tabnext 1
+if exists('s:wipebuf')
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=filnxtToO
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :

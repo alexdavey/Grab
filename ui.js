@@ -28,8 +28,13 @@
 		document.removeEventListener('mousemove', highlightElement);
 	}
 
-	function analyse() {
-		console.log(same(selectedElements));
+	function startAnalysis() {
+		console.log(grab.same(selectedElements));
+	}
+
+	function isMenuElement(target) {
+		return target === controls || target === add || 
+			target === remove || target === analyse;
 	}
 
 	var controls = $.createElement(document.body, 'div'),
@@ -46,11 +51,11 @@
 
 	add.addEventListener('click', startTracking, false);
 	remove.addEventListener('click', stopTracking, false);
-	analyse.addEventListener('click', analyse, false);
+	analyse.addEventListener('click', startAnalysis, false);
 
 	document.addEventListener('click', function(e) {
-		if (!tracking) return;
 		var target = e.target;
+		if (!tracking || isMenuElement(e.target)) return;
 		selectedElements.push(target);
 	}, false);
 
