@@ -29,7 +29,7 @@
 	}
 
 	function startAnalysis() {
-		console.log(grab.same(selectedElements));
+		console.log(grab.toModel(grab.same(selectedElements)));
 	}
 
 	function isMenuElement(target) {
