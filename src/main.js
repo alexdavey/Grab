@@ -33,15 +33,17 @@
 	}
 
 	function onMouseDown(e) {
-		if (!tracking || !isClickable(e.target)) return;
-		Confirmed.add(e.target);
-		e.preventDefault();
+		var target = e.target;
+		if (!tracking || !isClickable(target)) return;
+		Screen.highlightElement(target);
+		Confirmed.add(target);
 		if (Confirmed.size() > 2) startAnalysis();
 	}
 
 	function onMouseMove(e) {
-		if (tracking && isClickable(e.target)) {
-			Current.highlightElement(e.target);
+		var target = e.target;
+		if (tracking && isClickable(target)) {
+			Current.highlightElement(target);
 		}
 	}
 
@@ -56,6 +58,7 @@
 		Confirmed = new Selection('.grab-confirmed');
 
 	var Current = new Highlighter('#grab-currentSelection'),
+		Screen = new Highlighter('#grab-screen'),
 		controls = $.createElement(document.body, 'div'),
 		text = $.createElement(controls, 'textarea');
 

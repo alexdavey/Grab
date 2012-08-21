@@ -7,6 +7,10 @@
 	right : 20px;
 }
 
+#grab-screen {
+	position : absolute;
+}
+
 #grab-currentSelection, .grab-confirmed, .grab-extrapolated {
 	z-index : 10000000000000;
 	pointer-events : none;

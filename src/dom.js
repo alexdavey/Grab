@@ -22,6 +22,11 @@
 			return element;
 		},
 
+		// target : function(e) {
+		// 	return document.elementFromPoint(
+		// 		e.pageX + window.pageXOffset, e.pageY + window.pageYOffset);
+		// },
+
 		removeElement : function(element) {
 			element.parentNode.removeChild(element);
 		}
