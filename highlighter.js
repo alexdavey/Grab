@@ -15,9 +15,7 @@ window.Highlighter = (function(window, document, $, undefined) {
 	Highlighter.prototype = {
 		
 		hide : function() {
-			debugger;
 			$.css(this.element, { display : 'none' });
-			debugger;
 		},
 
 		show : function() {
