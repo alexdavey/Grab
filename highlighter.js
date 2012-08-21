@@ -2,9 +2,12 @@ window.Highlighter = (function(window, document, $, undefined) {
 
 	"use strict";
 
-	function Highlighter(identifier) {
+	function Highlighter(identifier, element) {
 		this.element = $.createElement(document.body, 'div');
 		this.highlighting = null;
+
+		if (element) this.highlightElement(element);
+
 		if (identifier[0] == '.') this.element.className = identifier.slice(1);
 		else this.element.id = identifier.slice(1);
 	}

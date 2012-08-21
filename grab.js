@@ -28,8 +28,8 @@ window.__grab = (function(window, document, undefined) {
 		},
 
 		same : function(models) {
-			var base = grab.toModel(models.splice(0, 1)[0]);
-			_.each(models, function(model) {
+			var base = grab.toModel(models[0]);
+			_.each(_.rest(models), function(model) {
 				_.each(base, function(value, key) {
 					if (!model[key] || model[key] !== value) {
 						delete base[key];

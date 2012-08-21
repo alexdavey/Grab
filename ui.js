@@ -21,16 +21,10 @@
 
 	function startAnalysis() {
 		var model = grab.toModel(grab.same(selectedElements)),
-			elements = grab.find(model);
+			elements = grab.find(model),
+			extrapolated = _.difference(elements, selectedElements);
 
-		console.log(model);
-		console.log(elements);
-
-		for (var i = 0, l = elements.length; i < l; i++) {
-			if (!_.contains(confirmedElements, elements[i])) {
-				addExtrapolation(elements[i]);
-			}
-		}
+		_.each(extrapolated, addExtrapolation);
 	}
 
 	function isMenuElement(target) {
@@ -39,15 +33,13 @@
 	}
 
 	function addElement(element) {
-		var Selected = new Highlighter('.grab-selected');
+		var Selected = new Highlighter('.grab-selected', element);
 		selectedElements.push(element);
-		Selected.highlightElement(element);
 		confirmedElements.push(Selected);
 	}
 
 	function addExtrapolation(element) {
-		var Selected = new Highlighter('.grab-extrapolated');
-		Selected.highlightElement(element);
+		var Selected = new Highlighter('.grab-extrapolated', element);
 		extrapolatedElements.push(Selected);
 	}
 
