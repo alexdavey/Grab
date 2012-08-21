@@ -48,9 +48,7 @@ window.__grab = (function(window, document, undefined) {
 		},
 
 		data : function(elements) {
-			return _.map(elements, function(element) {
-				return element.innerText;
-			}).join('\n');
+			return _.reject(_.pluck(elements, 'innerText'), _.isEmpty).join('\n');
 		},
 
 		find : function(model) {
@@ -61,7 +59,6 @@ window.__grab = (function(window, document, undefined) {
 			matches = matches.concat(getTag(model.nodeName));
 
 			if (parentNode = model.parentNode) {
-				console.log('parentNode');
 				matches = matches.concat(getTag(parentNode.nodeName));
 				matches = matches.concat(getClassName(parentNode.className));
 				matches = matches.concat(parentNode.childNodes);
