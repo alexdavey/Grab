@@ -7,16 +7,15 @@
 		extrapolatedElements = [],
 		selectedElements = [];
 
-	function startTracking() {
-		tracking = true;
-		document.addEventListener('mousemove', function(e) {
-			if (tracking) Selection.highlightElement(e.target);
-		}, false);
-	}
-
-	function stopTracking() {
-		tracking = false;
-		Selection.hide();
+	function toggleTracking() {
+		if (tracking) {
+			add.innerText = 'Add';
+			Selection.hide();
+		} else {
+			add.innerText = 'Stop';
+			Selection.show();
+		}
+		tracking = !tracking;
 	}
 
 	function startAnalysis() {
@@ -56,18 +55,24 @@
 		controls = $.createElement(document.body, 'div'),
 		addControl = _.bind($.createElement, $, controls, 'button');
 
-	var add = addControl('add'),
-		remove = addControl('remove'),
-		analyse = addControl('analyse');
+	var add = addControl('Add'),
+		remove = addControl('Remove'),
+		analyse = addControl('Analyse');
 	
 	controls.id = 'grab-controls';
 
-	add.addEventListener('click', startTracking, false);
-	remove.addEventListener('click', stopTracking, false);
+	add.addEventListener('click', toggleTracking, false);
+	remove.addEventListener('click', toggleTracking, false);
 	analyse.addEventListener('click', startAnalysis, false);
 
 	document.addEventListener('mousedown', function(e) {
-		if (tracking && !isMenuElement(e.target)) addElement(e.target);
+		if (!tracking || isMenuElement(e.target)) return;
+		addElement(e.target);
+		e.preventDefault();
+	}, false);
+
+	document.addEventListener('mousemove', function(e) {
+		if (tracking) Selection.highlightElement(e.target);
 	}, false);
 
 }(window, document, __grab, __$));
