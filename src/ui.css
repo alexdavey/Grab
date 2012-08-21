@@ -8,7 +8,7 @@
 }
 
 #grab-currentSelection, .grab-confirmed, .grab-extrapolated {
-	z-index : 100000000000000;
+	z-index : 10000000000000;
 	pointer-events : none;
 	position : absolute;
 	opacity : 0.5;

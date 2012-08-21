@@ -28,8 +28,8 @@
 
 	function isClickable(target) {
 		return target !== controls && target !== add && 
-			target !== remove && target !== analyse &&
-			target !== document.body;
+			target !== getText && /* target !== analyse && */
+			target !== text && target !== document.body;
 	}
 
 	function onMouseDown(e) {
@@ -45,23 +45,31 @@
 		}
 	}
 
+	function showText() {
+		if (Confirmed.size() < 3) return;
+		var data = Confirmed.elements.concat(Extrapolated.elements);
+		text.value = grab.data(data);
+	}
+
 	var tracking = false,
 		Extrapolated = new Selection('.grab-extrapolated'),
 		Confirmed = new Selection('.grab-confirmed');
 
 	var Current = new Highlighter('#grab-currentSelection'),
 		controls = $.createElement(document.body, 'div'),
-		addControl = _.bind($.createElement, $, controls, 'button');
+		text = $.createElement(controls, 'textarea');
+
+	var addControl = _.bind($.createElement, $, controls, 'button');
 
 	var add = addControl('Add'),
-		remove = addControl('Remove'),
-		analyse = addControl('Analyse');
+		getText = addControl('Get Text');
+		// analyse = addControl('Analyse');
 	
 	controls.id = 'grab-controls';
 
 	add.addEventListener('click', toggleTracking, false);
-	remove.addEventListener('click', toggleRemoval, false);
-	analyse.addEventListener('click', startAnalysis, false);
+	getText.addEventListener('click', showText, false);
+	// analyse.addEventListener('click', startAnalysis, false);
 
 	document.addEventListener('mousedown', onMouseDown, false);
 	document.addEventListener('mousemove', onMouseMove, false);

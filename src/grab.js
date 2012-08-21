@@ -47,6 +47,12 @@ window.__grab = (function(window, document, undefined) {
 			return true;
 		},
 
+		data : function(elements) {
+			return _.map(elements, function(element) {
+				return element.innerText;
+			}).join('\n');
+		},
+
 		find : function(model) {
 			var matches = [],
 				parentNode;
