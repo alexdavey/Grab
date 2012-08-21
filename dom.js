@@ -2,9 +2,7 @@
 	
 	"use strict";
 
-	var _$ = window.$;
-
-	var $ = window.$ = {
+	var $ = window.__$ = {
 		
 		css : function(element, styles) {
 			_.each(styles, function(value, key) {
