@@ -5,5 +5,5 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	chrome.tabs.executeScript(null, { file : 'grab.js' });
 	chrome.tabs.executeScript(null, { file : 'highlighter.js' });
 	chrome.tabs.executeScript(null, { file : 'selection.js' });
-	chrome.tabs.executeScript(null, { file : 'ui.js' });
+	chrome.tabs.executeScript(null, { file : 'main.js' });
 });
