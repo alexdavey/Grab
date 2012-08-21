@@ -20,6 +20,10 @@
 			element.innerText = text;
 			parentNode.appendChild(element);
 			return element;
+		},
+
+		removeElement : function(element) {
+			element.parentNode.removeChild(element);
 		}
 
 	};

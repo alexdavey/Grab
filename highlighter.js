@@ -31,6 +31,10 @@ window.Highlighter = (function(window, document, $, undefined) {
 				width : box.width,
 				height : box.height
 			});
+		},
+
+		destroy : function() {
+			$.removeElement(this.element);
 		}
 
 	};

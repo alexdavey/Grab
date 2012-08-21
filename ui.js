@@ -24,6 +24,8 @@
 			elements = grab.find(model),
 			extrapolated = _.difference(elements, selectedElements);
 
+		clearSelection(extrapolatedElements);
+
 		_.each(extrapolated, addExtrapolation);
 	}
 
@@ -36,11 +38,18 @@
 		var Selected = new Highlighter('.grab-selected', element);
 		selectedElements.push(element);
 		confirmedElements.push(Selected);
+
+		if (confirmedElements.length > 2) startAnalysis();
 	}
 
 	function addExtrapolation(element) {
 		var Selected = new Highlighter('.grab-extrapolated', element);
 		extrapolatedElements.push(Selected);
+	}
+
+	function clearSelection(selection) {
+		_.invoke(selection, 'destroy');
+		selection = [];
 	}
 
 	var Selection = new Highlighter('#grab-currentSelection'),
