@@ -55,6 +55,7 @@ window.__grab = (function(window, document, undefined) {
 			matches = matches.concat(getTag(model.nodeName));
 
 			if (parentNode = model.parentNode) {
+				console.log('parentNode');
 				matches = matches.concat(getTag(parentNode.nodeName));
 				matches = matches.concat(getClassName(parentNode.className));
 				matches = matches.concat(parentNode.childNodes);

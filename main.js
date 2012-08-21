@@ -13,6 +13,10 @@
 		tracking = !tracking;
 	}
 
+	function toggleRemoval() {
+		
+	}
+
 	function startAnalysis() {
 		var model = grab.toModel(grab.same(Confirmed.elements)),
 			elements = grab.find(model),
@@ -56,7 +60,7 @@
 	controls.id = 'grab-controls';
 
 	add.addEventListener('click', toggleTracking, false);
-	remove.addEventListener('click', toggleTracking, false);
+	remove.addEventListener('click', toggleRemoval, false);
 	analyse.addEventListener('click', startAnalysis, false);
 
 	document.addEventListener('mousedown', onMouseDown, false);
