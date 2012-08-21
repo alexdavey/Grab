@@ -1,11 +1,3 @@
-#grab-currentSelection {
-	pointer-events : none;
-	display : hidden;
-	position : absolute;
-	background : blue;
-	opacity : 0.5;
-}
-
 #grab-controls {
 	z-index : 100000000000000;
 	position : fixed;
@@ -15,14 +7,20 @@
 	right : 20px;
 }
 
+#grab-currentSelection, .grab-confirmed, .grab-extrapolated {
+	pointer-events : none;
+	position : absolute;
+	opacity : 0.5;
+}
+
+#grab-currentSelection {
+	background : blue;
+}
+
 .grab-confirmed {
 	background : green;
-	opacity : 0.5;
-	position : absolute;
 }
 
 .grab-extrapolated {
 	background : yellow;
-	opacity : 0.5;
-	position : absolute;
 }
