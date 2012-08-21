@@ -1,0 +1,27 @@
+#grab-controls {
+	z-index : 100000000000000;
+	position : fixed;
+	height : 25px;
+	background : black;
+	top : 30px;
+	right : 20px;
+}
+
+#grab-currentSelection, .grab-confirmed, .grab-extrapolated {
+	z-index : 100000000000000;
+	pointer-events : none;
+	position : absolute;
+	opacity : 0.5;
+}
+
+#grab-currentSelection {
+	background : blue;
+}
+
+.grab-confirmed {
+	background : green;
+}
+
+.grab-extrapolated {
+	background : yellow;
+}
