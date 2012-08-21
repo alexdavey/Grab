@@ -1,31 +1,25 @@
-(function(window, document, grab, $, undefined) {
+(function(window, document, grab, $, Selection, undefined) {
 
 	"use strict";
-
-	var tracking = false,
-		confirmedElements = [],
-		extrapolatedElements = [],
-		selectedElements = [];
 
 	function toggleTracking() {
 		if (tracking) {
 			add.innerText = 'Add';
-			Selection.hide();
+			Current.hide();
 		} else {
 			add.innerText = 'Stop';
-			Selection.show();
+			Current.show();
 		}
 		tracking = !tracking;
 	}
 
 	function startAnalysis() {
-		var model = grab.toModel(grab.same(selectedElements)),
+		var model = grab.toModel(grab.same(Confirmed.elements)),
 			elements = grab.find(model),
-			extrapolated = _.difference(elements, selectedElements);
+			extrapolated = _.difference(elements, Confirmed.elements);
 
-		clearSelection(extrapolatedElements);
-
-		_.each(extrapolated, addExtrapolation);
+		Extrapolated.clear();
+		_.each(extrapolated, Extrapolated.add, Extrapolated);
 	}
 
 	function isMenuElement(target) {
@@ -33,25 +27,22 @@
 			target === remove || target === analyse;
 	}
 
-	function addElement(element) {
-		var Selected = new Highlighter('.grab-selected', element);
-		selectedElements.push(element);
-		confirmedElements.push(Selected);
-
-		if (confirmedElements.length > 2) startAnalysis();
+	function onMouseDown(e) {
+		if (!tracking || isMenuElement(e.target)) return;
+		Confirmed.add(e.target);
+		e.preventDefault();
+		if (Confirmed.size() > 2) startAnalysis();
 	}
 
-	function addExtrapolation(element) {
-		var Selected = new Highlighter('.grab-extrapolated', element);
-		extrapolatedElements.push(Selected);
+	function onMouseMove(e) {
+		if (tracking) Current.highlightElement(e.target);
 	}
 
-	function clearSelection(selection) {
-		_.invoke(selection, 'destroy');
-		selection = [];
-	}
+	var tracking = false,
+		Extrapolated = new Selection('.grab-extrapolated'),
+		Confirmed = new Selection('.grab-confirmed');
 
-	var Selection = new Highlighter('#grab-currentSelection'),
+	var Current = new Highlighter('#grab-currentSelection'),
 		controls = $.createElement(document.body, 'div'),
 		addControl = _.bind($.createElement, $, controls, 'button');
 
@@ -65,14 +56,7 @@
 	remove.addEventListener('click', toggleTracking, false);
 	analyse.addEventListener('click', startAnalysis, false);
 
-	document.addEventListener('mousedown', function(e) {
-		if (!tracking || isMenuElement(e.target)) return;
-		addElement(e.target);
-		e.preventDefault();
-	}, false);
+	document.addEventListener('mousedown', onMouseDown, false);
+	document.addEventListener('mousemove', onMouseMove, false);
 
-	document.addEventListener('mousemove', function(e) {
-		if (tracking) Selection.highlightElement(e.target);
-	}, false);
-
-}(window, document, __grab, __$));
+}(window, document, __grab, __$, __Selection));

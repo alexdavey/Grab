@@ -15,7 +15,7 @@
 	right : 20px;
 }
 
-.grab-selected {
+.grab-confirmed {
 	background : green;
 	opacity : 0.5;
 	position : absolute;
