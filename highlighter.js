@@ -22,24 +22,15 @@ window.Highlighter = (function(window, document, $, undefined) {
 			$.css(this.element, { display : 'block' });
 		},
 
-		move :  function(x, y, width, height) {
-			$.css(this.element, {
-				top : y,
-				left : x,
-				width : width,
-				height : height
-			});
-		},
-
 		highlightElement : function(element) {
 			var box = element.getBoundingClientRect();
 			this.highlighting = element;
-			this.move(
-				box.left + window.pageXOffset,
-				box.top + window.pageYOffset,
-				box.width,
-				box.height
-			);
+			$.css(this.element, {
+				left : box.left + window.pageXOffset,
+				top : box.top + window.pageYOffset,
+				width : box.width,
+				height : box.height
+			});
 		}
 
 	};
