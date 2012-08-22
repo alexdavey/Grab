@@ -11,24 +11,25 @@
 		_.each(extrapolated, Extrapolated.add, Extrapolated);
 	}
 
+	function validTarget(target) {
+		return control.isOn('select') && !control.isControl(target);
+	}
+
 	function onMouseDown(e) {
 		var target = e.target;
-		if (!control.isOn('select') || control.isControl(target)) return;
+		if (!validTarget(target)) return;
 		Screen.highlightElement(target);
 		Confirmed.add(target);
-		if (Confirmed.size() > 2) startAnalysis();
+		if (Confirmed.size() >= threshold) startAnalysis();
 	}
 
 	function onMouseMove(e) {
 		var target = e.target;
-		if (control.isOn('select') && !control.isControl(target)) {
-			console.log(target);
-			Current.highlightElement(target);
-		}
+		if (validTarget(target)) Current.highlightElement(target);
 	}
 
 	function showText() {
-		if (Confirmed.size() < 3) return;
+		if (Confirmed.size() < threshold) return;
 		var data = Confirmed.elements.concat(Extrapolated.elements);
 		text.value = grab.data(data);
 	}
@@ -39,6 +40,8 @@
 		Extrapolated.reHighlight();
 		Confirmed.reHighlight();
 	}
+
+	var threshold = 2;
 
 	var Extrapolated = new Selection('.grab-extrapolated'),
 		Confirmed = new Selection('.grab-confirmed');

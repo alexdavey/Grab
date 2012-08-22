@@ -3,7 +3,7 @@
 	"use strict";
 
 	var control = window.control = {
-		
+
 		elements : [],
 
 		toggles : [],
