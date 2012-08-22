@@ -1,10 +1,41 @@
 (function(window, document, grab, $, Selection, undefined) {
 
 	"use strict";
+
+	var threshold = 2,
+		lastHighlighter = null,
+		extrapolatedClass = '.grab-extrapolated',
+		confirmedClass = '.grab-confirmed',
+		currentClass = '#grab-currentSelection',
+		screenClass = '#grab-screen',
+		removedClass = '.grab-removed',
+		clipboardClass = '#grab-clipboard';
 	
+	var currentText = '';
+
+	var Extrapolated = Selection(extrapolatedClass),
+		Confirmed = Selection(confirmedClass);
+
+	var Current = Highlighter(currentClass),
+		Screen = Highlighter(screenClass); // Invisible div that prevents clicks
+	
+	var select = control.addToggle('select', 'Stop', 'Select', 
+			Current.show, Current.hide, Current);
+
+	var remove = control.addToggle('remove', 'Stop', 'Remove');
+
+	var getText = control.addButton('Get Text', showText),
+		text = control.addElement('textarea', '');
+	
+	var clipboard = $.createElement(document.body, 'textarea', '');
+
+	clipboard.id = clipboardClass.slice(1);
+
 	function startAnalysis() {
 		Extrapolated.clear();
+
 		if (Confirmed.size() < threshold) return;
+
 		var model = grab.toModel(grab.same(Confirmed.elements)),
 			elements = grab.find(model),
 			extrapolated = _.difference(elements, Confirmed.elements);
@@ -20,36 +51,47 @@
 	function onMouseDown(e) {
 		var target = e.target;
 		if (!validTarget(target)) return;
+
 		if (control.isOn('select')) {
 			Screen.highlightElement(target);
 			Confirmed.add(target);
 		} else {
 			Confirmed.remove(target);
 		}
+
 		startAnalysis();
 	}
 
 	function onMouseMove(e) {
 		var target = e.target,
 			highlighter;
+
+		// Reset the color of the last element that was targeted for removal
 		if (lastHighlighter) lastHighlighter.setIdentifier(confirmedClass);
+
 		if (!validTarget(target)) return;
+
 		if (control.isOn('select')) {
 			Current.highlightElement(target);
 		} else if (highlighter = Confirmed.has(target)) {
+			Screen.hide();
 			highlighter.setIdentifier(removedClass);
 			lastHighlighter = highlighter;
 		}
 	}
 
-	function onMouseUp(e) {
-		Screen.hide();
+	function onKeyDown(e) {
+		var keyCode = e.keyCode;
+		if (keyCode == 17 || keyCode == 91 || keyCode == 93) {
+			clipboard.value = currentText;
+			clipboard.select();
+		}
 	}
 
 	function showText() {
 		if (Confirmed.size() < threshold) return;
 		var data = Confirmed.elements.concat(Extrapolated.elements);
-		text.value = grab.data(data);
+		currentText = text.value = grab.data(data);
 	}
 
 	function onResize() {
@@ -57,31 +99,11 @@
 		Confirmed.reHighlight();
 	}
 
-	var threshold = 2,
-		lastHighlighter = null,
-		extrapolatedClass = '.grab-extrapolated',
-		confirmedClass = '.grab-confirmed',
-		currentClass = '#grab-currentSelection',
-		screenClass = '#grab-screen',
-		removedClass = '.grab-removed';
-
-	var Extrapolated = Selection(extrapolatedClass),
-		Confirmed = Selection(confirmedClass);
-
-	var Current = Highlighter(currentClass),
-		Screen = Highlighter(screenClass);
-	
-	var select = control.addToggle('select', 'Stop', 'Select', 
-			Current.show, Current.hide, Current);
-
-	var remove = control.addToggle('remove', 'Stop', 'Remove');
-
-	var getText = control.addButton('Get Text', showText),
-		text = control.addElement('textarea', '');
-
 	document.addEventListener('mousedown', onMouseDown, false);
 	document.addEventListener('mousemove', onMouseMove, false);
-	document.addEventListener('mouseup', onMouseUp, false);
+
+	document.addEventListener('keydown', onKeyDown, false);
+
 	window.addEventListener('resize', onResize, false);
 
 }(window, document, __grab, __$, __Selection));
