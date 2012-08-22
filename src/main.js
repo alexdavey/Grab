@@ -49,7 +49,6 @@
 
 	function onResize() {
 		Current.reHighlight();
-		Screen.reHighlight();
 		Extrapolated.reHighlight();
 		Confirmed.reHighlight();
 	}
