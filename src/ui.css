@@ -1,6 +1,7 @@
 #grab-controls {
 	z-index : 100000000000000;
 	position : fixed;
+	width : 250px;
 	height : 25px;
 	background : black;
 	top : 30px;
@@ -12,7 +13,6 @@
 }
 
 #grab-currentSelection, .grab-confirmed, .grab-extrapolated {
-	z-index : 10000000000000;
 	pointer-events : none;
 	position : absolute;
 	opacity : 0.5;
