@@ -53,6 +53,13 @@
 		text.value = grab.data(data);
 	}
 
+	function onResize() {
+		Current.reHighlight();
+		Screen.reHighlight();
+		Extrapolated.reHighlight();
+		Confirmed.reHighlight();
+	}
+
 	var tracking = false,
 		Extrapolated = new Selection('.grab-extrapolated'),
 		Confirmed = new Selection('.grab-confirmed');
@@ -72,9 +79,9 @@
 
 	add.addEventListener('click', toggleTracking, false);
 	getText.addEventListener('click', showText, false);
-	// analyse.addEventListener('click', startAnalysis, false);
 
 	document.addEventListener('mousedown', onMouseDown, false);
 	document.addEventListener('mousemove', onMouseMove, false);
+	window.addEventListener('resize', onResize, false);
 
 }(window, document, __grab, __$, __Selection));

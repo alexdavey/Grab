@@ -36,6 +36,10 @@ window.__Selection = (function(window, document, undefined) {
 
 		contains : function(element) {
 			return _.contains(this.elements, element);
+		},
+
+		reHighlight : function() {
+			_.invoke(this.highlighters, 'reHighlight');
 		}
 		
 	};

@@ -33,6 +33,10 @@ window.Highlighter = (function(window, document, $, undefined) {
 			});
 		},
 
+		reHighlight : function() {
+			this.highlightElement(this.highlighting);
+		},
+
 		destroy : function() {
 			$.removeElement(this.element);
 		}
