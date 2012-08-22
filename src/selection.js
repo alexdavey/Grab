@@ -21,7 +21,7 @@ window.__Selection = (function(window, document, undefined) {
 		},
 
 		add : function(element) {
-			if (this.contains(element)) return;
+			if (this.has(element)) return;
 			var Selected = new Highlighter(this.identifier, element);
 			this.elements.push(element);
 			this.highlighters.push(Selected);
@@ -29,13 +29,15 @@ window.__Selection = (function(window, document, undefined) {
 
 		remove : function(element) {
 			var index = _.indexOf(this.elements, element);
+			if (index == -1) return;
 			this.highlighters[index].destroy();
 			this.highlighters.splice(index, 1);
 			this.elements.splice(index, 1);
 		},
 
-		contains : function(element) {
-			return _.contains(this.elements, element);
+		has : function(element) {
+			var index = _.indexOf(this.elements, element);
+			return index == -1 ? false : this.highlighters[index];
 		},
 
 		reHighlight : function() {

@@ -13,7 +13,7 @@
 	position : absolute;
 }
 
-#grab-currentSelection, .grab-confirmed, .grab-extrapolated {
+#grab-currentSelection, .grab-confirmed, .grab-extrapolated, .grab-removed {
 	pointer-events : none;
 	position : absolute;
 	opacity : 0.5;
@@ -29,4 +29,8 @@
 
 .grab-extrapolated {
 	background : yellow;
+}
+
+.grab-removed {
+	background : red;
 }

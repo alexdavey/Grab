@@ -2,6 +2,8 @@
 
 	"use strict";
 
+	var empty = function() {  };
+
 	var control = window.control = {
 
 		elements : [],
@@ -30,8 +32,8 @@
 				name : name,
 				on : on,
 				off : off,
-				onFn : onFn,
-				offFn : offFn,
+				onFn : onFn || empty,
+				offFn : offFn || empty,
 				state : false
 			}));
 		},

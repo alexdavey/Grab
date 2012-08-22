@@ -7,9 +7,7 @@ window.Highlighter = (function(window, document, $, undefined) {
 		this.highlighting = null;
 
 		if (element) this.highlightElement(element);
-
-		if (identifier[0] == '.') this.element.className = identifier.slice(1);
-		else this.element.id = identifier.slice(1);
+		this.setIdentifier(identifier);
 	}
 
 	Highlighter.prototype = {
@@ -39,6 +37,11 @@ window.Highlighter = (function(window, document, $, undefined) {
 
 		destroy : function() {
 			$.removeElement(this.element);
+		},
+
+		setIdentifier : function(identifier) {
+			if (identifier[0] == '.') this.element.className = identifier.slice(1);
+			else this.element.id = identifier.slice(1);
 		}
 
 	};

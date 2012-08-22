@@ -12,20 +12,34 @@
 	}
 
 	function validTarget(target) {
-		return control.isOn('select') && !control.isControl(target);
+		return (control.isOn('select') || control.isOn('remove'))
+				&& !control.isControl(target);
 	}
 
 	function onMouseDown(e) {
 		var target = e.target;
 		if (!validTarget(target)) return;
-		Screen.highlightElement(target);
-		Confirmed.add(target);
-		if (Confirmed.size() >= threshold) startAnalysis();
+		if (control.isOn('select')) {
+			Screen.highlightElement(target);
+			Confirmed.add(target);
+			if (Confirmed.size() >= threshold) startAnalysis();
+		} else {
+			Confirmed.remove(target);
+		}
 	}
 
 	function onMouseMove(e) {
-		var target = e.target;
-		if (validTarget(target)) Current.highlightElement(target);
+		var target = e.target,
+			highlighter;
+		console.log(Confirmed);
+		if (lastHighlighter) lastHighlighter.setIdentifier('.grab-confirmed');
+		if (!validTarget(target)) return;
+		if (control.isOn('select')) {
+			Current.highlightElement(target);
+		} else if (highlighter = Confirmed.has(target)) {
+			highlighter.setIdentifier('.grab-removed');
+			lastHighlighter = highlighter;
+		}
 	}
 
 	function showText() {
@@ -41,7 +55,8 @@
 		Confirmed.reHighlight();
 	}
 
-	var threshold = 2;
+	var threshold = 2,
+		lastHighlighter = null;
 
 	var Extrapolated = new Selection('.grab-extrapolated'),
 		Confirmed = new Selection('.grab-confirmed');
@@ -51,6 +66,8 @@
 	
 	var select = control.addToggle('select', 'Stop', 'Select', 
 			Current.show, Current.hide, Current);
+
+	var remove = control.addToggle('remove', 'Stop', 'Remove');
 
 	var getText = control.addButton('Get Text', showText),
 		text = control.addElement('textarea', '');
