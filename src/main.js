@@ -3,11 +3,12 @@
 	"use strict";
 	
 	function startAnalysis() {
+		Extrapolated.clear();
+		if (Confirmed.size() < threshold) return;
 		var model = grab.toModel(grab.same(Confirmed.elements)),
 			elements = grab.find(model),
 			extrapolated = _.difference(elements, Confirmed.elements);
 
-		Extrapolated.clear();
 		_.each(extrapolated, Extrapolated.add, Extrapolated);
 	}
 
@@ -22,10 +23,10 @@
 		if (control.isOn('select')) {
 			Screen.highlightElement(target);
 			Confirmed.add(target);
-			if (Confirmed.size() >= threshold) startAnalysis();
 		} else {
 			Confirmed.remove(target);
 		}
+		startAnalysis();
 	}
 
 	function onMouseMove(e) {
@@ -48,7 +49,6 @@
 	}
 
 	function onResize() {
-		Current.reHighlight();
 		Extrapolated.reHighlight();
 		Confirmed.reHighlight();
 	}
