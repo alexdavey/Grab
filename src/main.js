@@ -31,13 +31,12 @@
 	function onMouseMove(e) {
 		var target = e.target,
 			highlighter;
-		console.log(Confirmed);
-		if (lastHighlighter) lastHighlighter.setIdentifier('.grab-confirmed');
+		if (lastHighlighter) lastHighlighter.setIdentifier(confirmedClass);
 		if (!validTarget(target)) return;
 		if (control.isOn('select')) {
 			Current.highlightElement(target);
 		} else if (highlighter = Confirmed.has(target)) {
-			highlighter.setIdentifier('.grab-removed');
+			highlighter.setIdentifier(removedClass);
 			lastHighlighter = highlighter;
 		}
 	}
@@ -56,13 +55,18 @@
 	}
 
 	var threshold = 2,
-		lastHighlighter = null;
+		lastHighlighter = null,
+		extrapolatedClass = '.grab-extrapolated',
+		confirmedClass = '.grab-confirmed',
+		currentClass = '#grab-currentSelection',
+		screenClass = '#grab-screen',
+		removedClass = '.grab-removed';
 
-	var Extrapolated = new Selection('.grab-extrapolated'),
-		Confirmed = new Selection('.grab-confirmed');
+	var Extrapolated = Selection(extrapolatedClass),
+		Confirmed = Selection(confirmedClass);
 
-	var Current = new Highlighter('#grab-currentSelection'),
-		Screen = new Highlighter('#grab-screen');
+	var Current = Highlighter(currentClass),
+		Screen = Highlighter(screenClass);
 	
 	var select = control.addToggle('select', 'Stop', 'Select', 
 			Current.show, Current.hide, Current);

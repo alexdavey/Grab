@@ -3,6 +3,11 @@ window.Highlighter = (function(window, document, $, undefined) {
 	"use strict";
 
 	function Highlighter(identifier, element) {
+
+		if (!(this instanceof Highlighter)) {
+			return new Highlighter(identifier, element);
+		}
+
 		this.element = $.createElement(document.body, 'div');
 		this.highlighting = null;
 

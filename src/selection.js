@@ -3,6 +3,11 @@ window.__Selection = (function(window, document, undefined) {
 	"use strict";
 
 	function Selection(identifier) {
+
+		if (!(this instanceof Selection)) {
+			return new Selection(identifier);
+		}
+
 		this.elements = [];
 		this.highlighters = [];
 		this.identifier = identifier;
@@ -22,7 +27,7 @@ window.__Selection = (function(window, document, undefined) {
 
 		add : function(element) {
 			if (this.has(element)) return;
-			var Selected = new Highlighter(this.identifier, element);
+			var Selected = Highlighter(this.identifier, element);
 			this.elements.push(element);
 			this.highlighters.push(Selected);
 		},
