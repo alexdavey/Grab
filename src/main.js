@@ -42,6 +42,10 @@
 		}
 	}
 
+	function onMouseUp(e) {
+		Screen.hide();
+	}
+
 	function showText() {
 		if (Confirmed.size() < threshold) return;
 		var data = Confirmed.elements.concat(Extrapolated.elements);
@@ -77,6 +81,7 @@
 
 	document.addEventListener('mousedown', onMouseDown, false);
 	document.addEventListener('mousemove', onMouseMove, false);
+	document.addEventListener('mouseup', onMouseUp, false);
 	window.addEventListener('resize', onResize, false);
 
 }(window, document, __grab, __$, __Selection));
