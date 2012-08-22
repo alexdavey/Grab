@@ -10,6 +10,14 @@
 			});
 		},
 
+		hide : function(element) {
+			$.css(element, { display : 'none' });
+		},
+
+		show : function(element) {
+			$.css(element, { display : 'block' });
+		},
+
 		createElement : function(parentNode, name, text, styles) {
 			if (!_.isString(text)) {
 				styles = text;

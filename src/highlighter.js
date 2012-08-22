@@ -15,11 +15,11 @@ window.Highlighter = (function(window, document, $, undefined) {
 	Highlighter.prototype = {
 		
 		hide : function() {
-			$.css(this.element, { display : 'none' });
+			$.hide(this.element);
 		},
 
 		show : function() {
-			$.css(this.element, { display : 'block' });
+			$.show(this.element);
 		},
 
 		highlightElement : function(element) {

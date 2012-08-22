@@ -2,10 +2,11 @@
 	z-index : 100000000000000;
 	position : fixed;
 	width : 250px;
-	height : 25px;
+	height : 100px;
 	background : black;
 	top : 30px;
 	right : 20px;
+	-webkit-border-radius : 5px;
 }
 
 #grab-screen {

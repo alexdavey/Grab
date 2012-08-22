@@ -1,22 +1,7 @@
 (function(window, document, grab, $, Selection, undefined) {
 
 	"use strict";
-
-	function toggleTracking() {
-		if (tracking) {
-			add.innerText = 'Add';
-			Current.hide();
-		} else {
-			add.innerText = 'Stop';
-			Current.show();
-		}
-		tracking = !tracking;
-	}
-
-	function toggleRemoval() {
-		
-	}
-
+	
 	function startAnalysis() {
 		var model = grab.toModel(grab.same(Confirmed.elements)),
 			elements = grab.find(model),
@@ -26,15 +11,9 @@
 		_.each(extrapolated, Extrapolated.add, Extrapolated);
 	}
 
-	function isClickable(target) {
-		return target !== controls && target !== add && 
-			target !== getText && /* target !== analyse && */
-			target !== text && target !== document.body;
-	}
-
 	function onMouseDown(e) {
 		var target = e.target;
-		if (!tracking || !isClickable(target)) return;
+		if (!control.isOn('select') || control.isControl(target)) return;
 		Screen.highlightElement(target);
 		Confirmed.add(target);
 		if (Confirmed.size() > 2) startAnalysis();
@@ -42,7 +21,8 @@
 
 	function onMouseMove(e) {
 		var target = e.target;
-		if (tracking && isClickable(target)) {
+		if (control.isOn('select') && !control.isControl(target)) {
+			console.log(target);
 			Current.highlightElement(target);
 		}
 	}
@@ -60,25 +40,17 @@
 		Confirmed.reHighlight();
 	}
 
-	var tracking = false,
-		Extrapolated = new Selection('.grab-extrapolated'),
+	var Extrapolated = new Selection('.grab-extrapolated'),
 		Confirmed = new Selection('.grab-confirmed');
 
 	var Current = new Highlighter('#grab-currentSelection'),
-		Screen = new Highlighter('#grab-screen'),
-		controls = $.createElement(document.body, 'div'),
-		text = $.createElement(controls, 'textarea');
-
-	var addControl = _.bind($.createElement, $, controls, 'button');
-
-	var add = addControl('Add'),
-		getText = addControl('Get Text');
-		// analyse = addControl('Analyse');
+		Screen = new Highlighter('#grab-screen');
 	
-	controls.id = 'grab-controls';
+	var select = control.addToggle('select', 'Stop', 'Select', 
+			Current.show, Current.hide, Current);
 
-	add.addEventListener('click', toggleTracking, false);
-	getText.addEventListener('click', showText, false);
+	var getText = control.addButton('Get Text', showText),
+		text = control.addElement('textarea', '');
 
 	document.addEventListener('mousedown', onMouseDown, false);
 	document.addEventListener('mousemove', onMouseMove, false);
