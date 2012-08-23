@@ -32,7 +32,15 @@
 
 		removeElement : function(element) {
 			element.parentNode.removeChild(element);
-		}
+		},
+
+		getClass : function(className) {
+			return _.toArray(document.getElementsByClassName(className));
+		},
+
+		getTag : function(tagName) {
+			return _.toArray(document.getElementsByTagName(tagName));
+		},
 
 	};
 

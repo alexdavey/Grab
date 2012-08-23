@@ -1,14 +1,6 @@
-window.__grab = (function(window, document, undefined) {
+window.__grab = (function(window, document, $, undefined) {
 	
 	"use strict";
-
-	function getClass(className) {
-		return _.toArray(document.getElementsByClassName(className));
-	}
-
-	function getTag(tagName) {
-		return _.toArray(document.getElementsByTagName(tagName));
-	}
 
 	function filterObject(object, predicate) {
 		var clone = {};
@@ -55,12 +47,12 @@ window.__grab = (function(window, document, undefined) {
 			var matches = [],
 				parentNode;
 
-			matches = matches.concat(getClass(model.className));
-			matches = matches.concat(getTag(model.nodeName));
+			matches = matches.concat($.getClass(model.className));
+			matches = matches.concat($.getTag(model.nodeName));
 
 			if (parentNode = model.parentNode) {
-				matches = matches.concat(getTag(parentNode.nodeName));
-				matches = matches.concat(getClassName(parentNode.className));
+				matches = matches.concat($.getTag(parentNode.nodeName));
+				matches = matches.concat($.getClassName(parentNode.className));
 				matches = matches.concat(parentNode.childNodes);
 			}
 
@@ -71,4 +63,4 @@ window.__grab = (function(window, document, undefined) {
 
 	return grab;
 	
-}(window, document));
+}(window, document, __$));
