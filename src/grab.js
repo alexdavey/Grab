@@ -2,12 +2,15 @@ window.__grab = (function(window, document, $, undefined) {
 	
 	"use strict";
 
+	// List of node properties that generally do not indicate the content
+	// of the node, but confuse the matching function
 	var blacklist = ['protocol'];
 
 	function inBlacklist(value, key) {
 		return !_.contains(blacklist, key);
 	}
 
+	// Functions identically to _.filter except returns an object
 	function filterObject(object, predicate) {
 		var clone = {};
 		_.each(object, function(value, key) {
@@ -28,6 +31,9 @@ window.__grab = (function(window, document, $, undefined) {
 
 	var grab = {
 			
+		// Reduces a node to a simple object with all superfluous values
+		// removed, first by removing any keys in the blacklist, then any
+		// undefined/null or empty string values
 		toModel : function(node) {
 			var filtered = filterObject(node, inBlacklist);
 			return filterObject(filtered, function(value, key) {
@@ -36,12 +42,16 @@ window.__grab = (function(window, document, $, undefined) {
 			});
 		},
 
+		// Returns the intersection of all models passed to it, that is the
+		// set of properties and values that all of the models share.
 		same : function(models) {
 			var base = grab.toModel(models[0]);
 				// intersectBase;
 			_.each(_.rest(models), function(model) {
 				_.each(base, function(value, key) {
-					if (_.isUndefined(model[key]) || model[key] !== value) delete base[key];
+					if (_.isUndefined(model[key]) || model[key] !== value) {
+						delete base[key];
+					}
 				});
 				// intersectBase = _.bind(intersect, null, base, model);
 				// _.each(base, intersectBase);
@@ -49,7 +59,9 @@ window.__grab = (function(window, document, $, undefined) {
 			return base;
 		},
 
-		match : function(a, b) {
+		// Simple predicate determines if all key/value pairs in object a 
+		// are also in object b, however not all of b's values have to be in a
+		subset : function(a, b) {
 			for (var i in a) {
 				if (!a.hasOwnProperty(i)) continue;
 				if (!b.hasOwnProperty(i) || b[i] !== a[i]) {
@@ -59,10 +71,14 @@ window.__grab = (function(window, document, $, undefined) {
 			return true;
 		},
 
+		// Returns the innerText values of all of elements, with empty lines
+		// removed and the lines remaining joined with newlines
 		data : function(elements) {
 			return _.reject(_.pluck(elements, 'innerText'), _.isEmpty).join('\n');
 		},
 
+		// Extracts a list of potential matches based on the properties of
+		// the model it is given and filters out those which do not match
 		find : function(model) {
 			var matches = [],
 				parentNode;
@@ -76,9 +92,11 @@ window.__grab = (function(window, document, $, undefined) {
 				matches = matches.concat(parentNode.childNodes);
 			}
 
-			return _.filter(matches, _.bind(grab.match, grab, model));
+			return _.filter(matches, _.bind(grab.subset, grab, model));
 		},
 
+		// Sorts the elements based on thier position in the window, first by
+		// y value, then by x value
 		order : function(matches) {
 			var sorted = _.sortBy(matches, function(match) {
 				var box = match.getBoundingClientRect();
