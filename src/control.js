@@ -55,7 +55,8 @@
 		},
 
 		isControl : function(element) {
-			return _.contains(control.elements, element);
+			return element === control.element ||
+					_.contains(control.elements, element);
 		},
 
 		show : function() {
