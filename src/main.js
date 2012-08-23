@@ -22,7 +22,7 @@
 	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
 	control.addToggle('remove', 'Stop', 'Remove');
 	control.addButton('Get Text', showText);
-	control.addButton('Quit', control.hide);
+	control.addButton('Close', control.hide);
 
 	var text = control.addElement('textarea', '');
 	
