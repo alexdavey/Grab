@@ -3,10 +3,10 @@
 	position : fixed;
 	width : 250px;
 	height : 100px;
-	background : black;
 	top : 30px;
 	right : 20px;
 	-webkit-border-radius : 5px;
+	background : black;
 }
 
 #grab-screen {
@@ -14,30 +14,31 @@
 }
 
 #grab-currentSelection, .grab-confirmed, .grab-extrapolated, .grab-removed {
+	margin-left : -3px;
+	border-left : 3px solid black;
+	padding-right : 3px;
 	pointer-events : none;
 	position : absolute;
-	opacity : 0.5;
 }
 
 #grab-currentSelection {
-	background : blue;
+	background : rgba(0, 0, 255, 0.5);
 }
 
 .grab-confirmed {
-	background : green;
+	background : rgba(0, 255, 0, 0.5);
 }
 
 .grab-extrapolated {
-	background : yellow;
+	background : rgba(255, 255, 0, 0.5);
 }
 
 .grab-removed {
-	background : red;
+	background : rgba(255, 0, 0, 0.5);
 }
 
 #grab-clipboard {
 	overflow : hidden;
-	/* border : 0px solid transparent; */
 	margin: 0;
 	padding: 0;
 	width : 0;
