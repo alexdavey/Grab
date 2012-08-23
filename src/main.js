@@ -22,13 +22,19 @@
 	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
 	control.addToggle('remove', 'Stop', 'Remove');
 	control.addButton('Get Text', showText);
-	control.addButton('Close', control.hide);
+	control.addButton('Close', close);
 
 	var text = control.addElement('textarea', '');
 	
 	var clipboard = $.createElement(document.body, 'textarea', '');
 
 	clipboard.id = clipboardClass.slice(1);
+
+	function close() {
+		control.hide();
+		Extrapolated.clear();
+		Confirmed.clear();
+	}
 
 	function startAnalysis() {
 		Extrapolated.clear();
