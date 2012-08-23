@@ -55,13 +55,13 @@
 
 	function onMouseDown(e) {
 		var target = e.target;
+
+		Screen.hide();
 		if (!validTarget(target)) return;
 		Screen.highlightElement(target);
-		if (control.isOn('select')) {
-			Confirmed.add(target);
-		} else {
-			Confirmed.remove(target);
-		}
+
+		if (control.isOn('select')) Confirmed.add(target);
+		else Confirmed.remove(target);
 
 		startAnalysis();
 	}
