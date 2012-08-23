@@ -22,6 +22,7 @@
 	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
 	control.addToggle('remove', 'Stop', 'Remove');
 	control.addButton('Get Text', showText);
+	control.addButton('Quit', control.hide);
 
 	var text = control.addElement('textarea', '');
 	
@@ -37,8 +38,6 @@
 		var model = grab.toModel(grab.same(Confirmed.elements)),
 			elements = grab.find(model),
 			extrapolated = _.difference(elements, Confirmed.elements);
-
-		console.log(model);
 
 		_.each(extrapolated, Extrapolated.add, Extrapolated);
 	}
