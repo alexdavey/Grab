@@ -28,6 +28,7 @@ window.Highlighter = (function(window, document, $, undefined) {
 		highlightElement : function(element) {
 			var box = element.getBoundingClientRect();
 			this.highlighting = element;
+			this.show();
 			$.css(this.element, {
 				left : box.left + window.pageXOffset,
 				top : box.top + window.pageYOffset,

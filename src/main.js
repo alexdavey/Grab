@@ -51,7 +51,6 @@
 	function onMouseDown(e) {
 		var target = e.target;
 		if (!validTarget(target)) return;
-
 		Screen.highlightElement(target);
 		if (control.isOn('select')) {
 			Confirmed.add(target);
