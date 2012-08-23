@@ -4,6 +4,7 @@ window.Highlighter = (function(window, document, $, undefined) {
 
 	function Highlighter(identifier, element) {
 
+		// Allow the `new` operator to be missed
 		if (!(this instanceof Highlighter)) {
 			return new Highlighter(identifier, element);
 		}
@@ -37,6 +38,8 @@ window.Highlighter = (function(window, document, $, undefined) {
 			});
 		},
 
+		// Recalculate the position of the element (usually called when css
+		// is recalculated upon window resize)
 		reHighlight : function() {
 			this.highlightElement(this.highlighting);
 		},
@@ -45,6 +48,7 @@ window.Highlighter = (function(window, document, $, undefined) {
 			$.removeElement(this.element);
 		},
 
+		// Set either class or id based on a '.' or a '#' prefix respectively
 		setIdentifier : function(identifier) {
 			if (identifier[0] == '.') this.element.className = identifier.slice(1);
 			else this.element.id = identifier.slice(1);
