@@ -2,6 +2,12 @@ window.__grab = (function(window, document, $, undefined) {
 	
 	"use strict";
 
+	var blacklist = ['protocol'];
+
+	function inBlacklist(value, key) {
+		return !_.contains(blacklist, key);
+	}
+
 	function filterObject(object, predicate) {
 		var clone = {};
 		_.each(object, function(value, key) {
@@ -10,32 +16,35 @@ window.__grab = (function(window, document, $, undefined) {
 		return clone;
 	}
 
-	function intersect(base, model, key, value) {
-		if (_.isUndefined(model[key])) delete base[key];
-		else if (_.isObject(value)) {
-			_.each(value, function(value, key) {
-				intersect(base, model, key, value);
-			});
-		} 
-		else if (model[key] !== value) delete base[key];
-	}
+	// function intersect(base, model, value, key) {
+	// 	if (_.isUndefined(model[key])) delete base[key];
+	// 	else if (_.isObject(value) && _.isObject(model[key])) {
+	// 		_.each(value, function(value, key) {
+	// 			intersect(base[key], model[key], key, value);
+	// 		});
+	// 	} 
+	// 	else if (model[key] !== value) delete base[key];
+	// }
 
 	var grab = {
 			
 		toModel : function(node) {
-			return filterObject(node, function(value, key) {
+			var filtered = filterObject(node, inBlacklist);
+			return filterObject(filtered, function(value, key) {
 				return (value != null && value !== "") &&
-					(_.isString(value) || _.isNumber(value));
+					(_.isObject(value) || _.isString(value) || _.isNumber(value));
 			});
 		},
 
 		same : function(models) {
-			var base = grab.toModel(models[0]),
-				property;
+			var base = grab.toModel(models[0]);
+				// intersectBase;
 			_.each(_.rest(models), function(model) {
 				_.each(base, function(value, key) {
-					intersect(base, model, key, value);
-				});		
+					if (_.isUndefined(model[key]) || model[key] !== value) delete base[key];
+				});
+				// intersectBase = _.bind(intersect, null, base, model);
+				// _.each(base, intersectBase);
 			});
 			return base;
 		},
@@ -43,7 +52,9 @@ window.__grab = (function(window, document, $, undefined) {
 		match : function(a, b) {
 			for (var i in a) {
 				if (!a.hasOwnProperty(i)) continue;
-				if (!b.hasOwnProperty(i) || b[i] !== a[i])  return false;
+				if (!b.hasOwnProperty(i) || b[i] !== a[i]) {
+					return false;
+				}
 			}
 			return true;
 		},
@@ -61,7 +72,7 @@ window.__grab = (function(window, document, $, undefined) {
 
 			if (parentNode = model.parentNode) {
 				matches = matches.concat($.getTag(parentNode.nodeName));
-				matches = matches.concat($.getClassName(parentNode.className));
+				matches = matches.concat($.getClass(parentNode.className));
 				matches = matches.concat(parentNode.childNodes);
 			}
 

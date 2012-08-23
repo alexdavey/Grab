@@ -38,6 +38,8 @@
 			elements = grab.find(model),
 			extrapolated = _.difference(elements, Confirmed.elements);
 
+		console.log(model);
+
 		_.each(extrapolated, Extrapolated.add, Extrapolated);
 	}
 
@@ -50,8 +52,8 @@
 		var target = e.target;
 		if (!validTarget(target)) return;
 
+		Screen.highlightElement(target);
 		if (control.isOn('select')) {
-			Screen.highlightElement(target);
 			Confirmed.add(target);
 		} else {
 			Confirmed.remove(target);
