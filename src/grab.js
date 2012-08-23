@@ -10,6 +10,16 @@ window.__grab = (function(window, document, $, undefined) {
 		return clone;
 	}
 
+	function intersect(base, model, key, value) {
+		if (_.isUndefined(model[key])) delete base[key];
+		else if (_.isObject(value)) {
+			_.each(value, function(value, key) {
+				intersect(base, model, key, value);
+			});
+		} 
+		else if (model[key] !== value) delete base[key];
+	}
+
 	var grab = {
 			
 		toModel : function(node) {
@@ -20,12 +30,11 @@ window.__grab = (function(window, document, $, undefined) {
 		},
 
 		same : function(models) {
-			var base = grab.toModel(models[0]);
+			var base = grab.toModel(models[0]),
+				property;
 			_.each(_.rest(models), function(model) {
 				_.each(base, function(value, key) {
-					if (!model[key] || model[key] !== value) {
-						delete base[key];
-					}
+					intersect(base, model, key, value);
 				});		
 			});
 			return base;
@@ -57,6 +66,14 @@ window.__grab = (function(window, document, $, undefined) {
 			}
 
 			return _.filter(matches, _.bind(grab.match, grab, model));
+		},
+
+		order : function(matches) {
+			var sorted = _.sortBy(matches, function(match) {
+				var box = match.getBoundingClientRect();
+				return (box.top + window.pageYOffset) + 
+						(box.left + window.pageXOffset) / 1000;
+			});
 		}
 		
 	};
