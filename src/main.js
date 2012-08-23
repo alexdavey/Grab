@@ -95,7 +95,8 @@
 	function showText() {
 		if (Confirmed.size() < threshold) return;
 		var data = Confirmed.elements.concat(Extrapolated.elements);
-		currentText = text.value = grab.data(data);
+			ordered = grab.order(data);
+		currentText = text.value = grab.data(ordered);
 	}
 
 	function onResize() {

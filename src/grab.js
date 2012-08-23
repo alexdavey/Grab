@@ -98,7 +98,7 @@ window.__grab = (function(window, document, $, undefined) {
 		// Sorts the elements based on thier position in the window, first by
 		// y value, then by x value
 		order : function(matches) {
-			var sorted = _.sortBy(matches, function(match) {
+			return _.sortBy(matches, function(match) {
 				var box = match.getBoundingClientRect();
 				return (box.top + window.pageYOffset) + 
 						(box.left + window.pageXOffset) / 1000;
