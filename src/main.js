@@ -19,13 +19,11 @@
 	var Current = Highlighter(currentClass),
 		Screen = Highlighter(screenClass); // Invisible div that prevents clicks
 	
-	var select = control.addToggle('select', 'Stop', 'Select', 
-			Current.show, Current.hide, Current);
+	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
+	control.addToggle('remove', 'Stop', 'Remove');
+	control.addButton('Get Text', showText);
 
-	var remove = control.addToggle('remove', 'Stop', 'Remove');
-
-	var getText = control.addButton('Get Text', showText),
-		text = control.addElement('textarea', '');
+	var text = control.addElement('textarea', '');
 	
 	var clipboard = $.createElement(document.body, 'textarea', '');
 
@@ -44,8 +42,8 @@
 	}
 
 	function validTarget(target) {
-		return (control.isOn('select') || control.isOn('remove'))
-				&& !control.isControl(target);
+		return (control.isOn('select') || control.isOn('remove')) && 
+				!control.isControl(target);
 	}
 
 	function onMouseDown(e) {
