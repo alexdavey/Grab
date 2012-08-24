@@ -8,9 +8,6 @@
 
 	var Selections = Collection();
 
-	// var Extrapolated = Selection(extrapolatedClass),
-	// 	Confirmed = Selection(confirmedClass);
-
 	var Current = Highlighter(settings.currentClass),
 		Screen = Highlighter(settings.screenClass); // Invisible div that prevents clicks
 	
@@ -29,21 +26,7 @@
 	function close() {
 		control.hide();
 		Selections.clear();
-		// Extrapolated.clear();
-		// Confirmed.clear();
 	}
-
-	// function startAnalysis() {
-	// 	Extrapolated.clear();
-
-	// 	if (Confirmed.size() < threshold) return;
-
-	// 	var model = grab.toModel(grab.same(Confirmed.elements)),
-	// 		elements = grab.find(model),
-	// 		extrapolated = _.difference(elements, Confirmed.elements);
-
-	// 	_.each(extrapolated, Extrapolated.add, Extrapolated);
-	// }
 
 	function validTarget(target) {
 		return (control.isOn('select') || control.isOn('remove')) && 
@@ -60,7 +43,6 @@
 		if (control.isOn('select')) Selections.addElement(target);
 		else Selections.removeElement(target);
 
-		// startAnalysis();
 		Selections.extrapolate();
 	}
 
@@ -77,7 +59,7 @@
 
 		if (control.isOn('select')) {
 			Current.highlightElement(target);
-		} else if (highlighter = Selections.getConfirmed().has(target)) {
+		} else if (highlighter = Selections.Confirmed.has(target)) {
 			Screen.hide();
 			highlighter.setIdentifier(settings.removedClass);
 			lastHighlighter = highlighter;
@@ -93,17 +75,9 @@
 	}
 
 	function showText() {
-	// 	if (Confirmed.size() < threshold) return;
-	// 	var data = Confirmed.elements.concat(Extrapolated.elements);
-	// 		ordered = grab.order(data);
 		currentText = text.value = Selections.getText();
 	}
 
-	// function onResize() {
-	// 	Extrapolated.reHighlight();
-	// 	Confirmed.reHighlight();
-	// }
-	
 	function onResize() {
 		Selections.reHighlight();
 	}
