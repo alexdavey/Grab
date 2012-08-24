@@ -4,6 +4,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	chrome.tabs.executeScript(null, { file : 'src/dom.js' });
 	chrome.tabs.executeScript(null, { file : 'src/grab.js' });
 	chrome.tabs.executeScript(null, { file : 'src/highlighter.js' });
+	chrome.tabs.executeScript(null, { file : 'src/dropdown.js' });
 	chrome.tabs.executeScript(null, { file : 'src/selection.js' });
 	chrome.tabs.executeScript(null, { file : 'src/control.js' });
 	chrome.tabs.executeScript(null, { file : 'src/main.js' });

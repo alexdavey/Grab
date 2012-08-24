@@ -38,6 +38,10 @@
 			}));
 		},
 
+		addDropdown : function() {
+			return Dropdown(this.element);
+		},
+
 		toggle : function(name) {
 			var toggle = control.toggles[name];
 			if (toggle.state) {

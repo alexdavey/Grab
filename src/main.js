@@ -27,8 +27,9 @@
 	var text = control.addElement('textarea', '');
 	
 	var clipboard = $.createElement(document.body, 'textarea', '');
-
 	clipboard.id = clipboardClass.slice(1);
+
+	var dropdown = control.addDropdown();
 
 	function close() {
 		control.hide();
