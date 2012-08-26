@@ -58,11 +58,11 @@ window.Dropdown = (function(window, document, $, undefined) {
 	Dropdown.prototype = {
 
 		state : function() {
-			return _.indexOf(element, elements);
+			console.log('elements', elements, current);
+			return _.indexOf(current, elements);
 		},
 		
 		addOption : function(color) {
-			console.log('color', color);
 			var element = $.createElement(this.element, 'li', '', {
 				background : color
 			});
