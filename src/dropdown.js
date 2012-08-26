@@ -58,7 +58,6 @@ window.Dropdown = (function(window, document, $, undefined) {
 	Dropdown.prototype = {
 
 		state : function() {
-			console.log('elements', elements, current);
 			return _.indexOf(current, elements);
 		},
 		

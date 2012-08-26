@@ -37,7 +37,6 @@
 	}
 
 	function onSelect(index) {
-		console.log(index, colors);
 		Current.setBorder(colors[index]);
 		Selections.setActive(index);
 	}
