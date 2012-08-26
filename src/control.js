@@ -38,8 +38,8 @@
 			}));
 		},
 
-		addDropdown : function() {
-			return Dropdown(this.element);
+		addDropdown : function(color, fn) {
+			return Dropdown(this.element, color, fn);
 		},
 
 		toggle : function(name) {

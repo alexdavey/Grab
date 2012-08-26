@@ -2,17 +2,15 @@ window.Collection = (function(window, document, Selection, grab, undefined) {
 
 	"use strict";
 
-	function Collection() {
+	function Collection(border) {
 
 		if (!(this instanceof Collection)) {
-			return new Collection();
+			return new Collection(border);
 		}
 
-		this.ConfirmedList = [Selection(settings.confirmedClass)];
-		this.ExtrapolatedList = [Selection(settings.extrapolatedClass)];
-		this.models = [{}];
-		this.active = 0;
-		this.setActive(this.active);
+		this.ConfirmedList = [];
+		this.ExtrapolatedList = [];
+		if (border) this.addSelection(border);
 	}
 
 	Collection.prototype = {
@@ -39,6 +37,22 @@ window.Collection = (function(window, document, Selection, grab, undefined) {
 			_.invoke(this.ConfirmedList, 'clear');
 		},
 
+		addSelection : function(color) {
+			var Confirmed = Selection(settings.confirmedClass, color),
+				Extrapolated = Selection(settings.extrapolatedClass, color);
+			this.ConfirmedList.push(Confirmed);
+			this.ExtrapolatedList.push(Extrapolated);
+			this.setActive(this.ConfirmedList.length - 1);
+		},
+
+		removeSelection : function() {
+			
+		},
+
+		size : function() {
+			return this.ConfirmedList.length;
+		},
+
 		addElement : function(element) {
 			this.Confirmed.add(element);
 		},
@@ -49,12 +63,8 @@ window.Collection = (function(window, document, Selection, grab, undefined) {
 
 		setActive : function(index) {
 			this.active = index;
-			this.Extrapolated = this.ExtrapolatedList[this.active];
-			this.Confirmed = this.ConfirmedList[this.active];
-		},
-
-		getActive : function() {
-			return this.active;
+			this.Extrapolated = this.ExtrapolatedList[index];
+			this.Confirmed = this.ConfirmedList[index];
 		},
 
 		getText : function() {
@@ -66,12 +76,13 @@ window.Collection = (function(window, document, Selection, grab, undefined) {
 		},
 
 		getAllText : function() {
-			var active = this.active;
-			_.map(this.ConfirmedList, function(Confirmed, i) {
+			var active = this.active,
+			texts = _.map(this.ConfirmedList, function(Confirmed, i) {
 				setActive(i);
 				return this.getText();
 			});
 			setActive(active);
+			return texts;
 		},
 
 		reHighlight : function() {

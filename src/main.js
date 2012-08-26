@@ -4,16 +4,20 @@
 
 	var lastHighlighter = null;
 	
-	var currentText = '';
+	var currentText = '',
+		currentColor = settings.initialColor;
+	
+	var colors = [];
 
-	var Selections = Collection();
+	var Selections = Collection(currentColor);
 
 	var Current = Highlighter(settings.currentClass),
 		Screen = Highlighter(settings.screenClass); // Invisible div that prevents clicks
 	
-	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
+	control.addToggle('select', 'Stop', 'Select', showCurrent, hideCurrent);
 	control.addToggle('remove', 'Stop', 'Remove');
 	control.addButton('Get Text', showText);
+	control.addButton('Add selection', addSelection);
 	control.addButton('Close', close);
 
 	var text = control.addElement('textarea', '');
@@ -21,7 +25,37 @@
 	var clipboard = $.createElement(document.body, 'textarea', '');
 	clipboard.id = settings.clipboardClass.slice(1);
 
-	var dropdown = control.addDropdown();
+	var Dropdown = control.addDropdown(currentColor, onSelect);
+
+	function hideCurrent() {
+		Current.hide();
+	}
+
+	function showCurrent() {
+		Current.setBorder(colors[Dropdown.state]);
+		Current.show();
+	}
+
+	function newColor() {
+		var r = Math.random() * 255,
+			g = Math.random() * 255,
+			b = Math.random() * 255;
+		return 'rgb(' + ~~r  + ', ' + ~~g + ', ' + ~~b + ')';
+	}
+
+	function onSelect(name) {
+		Selections.setActive(+name);
+	}
+
+	function addOption(color) {
+		Dropdown.addOption(color);
+	}
+
+	function addSelection() {
+		var color = newColor();
+		Selections.addSelection(color);
+		addOption(color);
+	}
 
 	function close() {
 		control.hide();

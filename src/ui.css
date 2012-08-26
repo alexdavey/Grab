@@ -4,7 +4,9 @@
 
 #grab-currentSelection, .grab-confirmed, .grab-extrapolated, .grab-removed {
 	margin-left : -3px;
-	border-left : 3px solid black;
+	/* border-left : 3px solid black; */
+	border-left-width : 3px;
+	border-left-style : solid;
 	padding-right : 3px;
 	pointer-events : none;
 	position : absolute;
@@ -24,6 +26,16 @@
 
 .grab-removed {
 	background : rgba(255, 0, 0, 0.5);
+}
+
+.grab-dropdownChild {
+	height : 20px;
+}
+
+#grab-controls textarea {
+	margin : 0;
+	padding : 0;
+	width : 100%;
 }
 
 #grab-clipboard {

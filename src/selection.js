@@ -2,15 +2,16 @@ window.__Selection = (function(window, document, undefined) {
 
 	"use strict";
 
-	function Selection(identifier) {
+	function Selection(identifier, border) {
 
 		if (!(this instanceof Selection)) {
-			return new Selection(identifier);
+			return new Selection(identifier, border);
 		}
 
 		this.elements = [];
 		this.highlighters = [];
 		this.identifier = identifier;
+		this.border = border;
 	}
 
 	Selection.prototype = {
@@ -27,7 +28,7 @@ window.__Selection = (function(window, document, undefined) {
 
 		add : function(element) {
 			if (this.has(element)) return;
-			var Selected = Highlighter(this.identifier, element);
+			var Selected = Highlighter(this.identifier, element, this.border);
 			this.elements.push(element);
 			this.highlighters.push(Selected);
 		},

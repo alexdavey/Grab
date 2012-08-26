@@ -2,15 +2,18 @@ window.Highlighter = (function(window, document, $, undefined) {
 
 	"use strict";
 
-	function Highlighter(identifier, element) {
+	function Highlighter(identifier, element, border) {
 
 		// Allow the `new` operator to be missed
 		if (!(this instanceof Highlighter)) {
-			return new Highlighter(identifier, element);
+			return new Highlighter(identifier, element, border);
 		}
 
 		this.element = $.createElement(document.body, 'div');
 		this.highlighting = null;
+
+		if (!border && _.isString(element)) border = element;
+		this.setBorder(border);
 
 		if (element) this.highlightElement(element);
 		this.setIdentifier(identifier);
@@ -52,6 +55,10 @@ window.Highlighter = (function(window, document, $, undefined) {
 		setIdentifier : function(identifier) {
 			if (identifier[0] == '.') this.element.className = identifier.slice(1);
 			else this.element.id = identifier.slice(1);
+		},
+
+		setBorder : function(color) {
+			$.css(this.element, { 'border-color' : color });
 		}
 
 	};
