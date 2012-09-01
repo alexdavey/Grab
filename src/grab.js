@@ -30,7 +30,7 @@ window.__grab = (function(window, document, $, undefined) {
 	// }
 
 	function compare(base, models, iterator) {
-		_.each(models, function(model) {
+	_.each(models, function(model) {
 			_.each(base, function(value, key) {
 				iterator(model, key, value);
 			});
@@ -55,9 +55,7 @@ window.__grab = (function(window, document, $, undefined) {
 		same : function(models) {
 			var base = grab.toModel(models[0]);
 			compare(base, _.rest(models), function(model, key, value) {
-				if (_.isUndefined(model[key]) || model[key] !== value) {
-					delete base[key];
-				}
+				if (model[key] !== value) delete base[key];
 			});
 			return base;
 		},
@@ -120,4 +118,4 @@ window.__grab = (function(window, document, $, undefined) {
 
 	return grab;
 
-(window, document, __$));
+}(window, document, __$));
