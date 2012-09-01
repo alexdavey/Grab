@@ -1,5 +1,5 @@
 window.__grab = (function(window, document, $, undefined) {
-	
+
 	"use strict";
 
 	// List of node properties that generally do not indicate the content
@@ -29,6 +29,14 @@ window.__grab = (function(window, document, $, undefined) {
 	// 	else if (model[key] !== value) delete base[key];
 	// }
 
+	function compare(base, models, iterator) {
+		_.each(models, function(model) {
+			_.each(base, function(value, key) {
+				iterator(model, key, value);
+			});
+		});
+	}
+
 	var grab = {
 			
 		// Reduces a node to a simple object with all superfluous values
@@ -46,15 +54,10 @@ window.__grab = (function(window, document, $, undefined) {
 		// set of properties and values that all of the models share.
 		same : function(models) {
 			var base = grab.toModel(models[0]);
-				// intersectBase;
-			_.each(_.rest(models), function(model) {
-				_.each(base, function(value, key) {
-					if (_.isUndefined(model[key]) || model[key] !== value) {
-						delete base[key];
-					}
-				});
-				// intersectBase = _.bind(intersect, null, base, model);
-				// _.each(base, intersectBase);
+			compare(base, _.rest(models), function(model, key, value) {
+				if (_.isUndefined(model[key]) || model[key] !== value) {
+					delete base[key];
+				}
 			});
 			return base;
 		},
@@ -108,5 +111,5 @@ window.__grab = (function(window, document, $, undefined) {
 	};
 
 	return grab;
-	
-}(window, document, __$));
+
+(window, document, __$));
