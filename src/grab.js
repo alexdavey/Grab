@@ -60,6 +60,7 @@ window.__grab = (function(window, document, $, undefined) {
 			return base;
 		},
 
+		// Remove the properties of one model from the other
 		subtract : function(model, negative) {
 			var keys = _.keys(negative);
 			_.each(keys, function(key) {
