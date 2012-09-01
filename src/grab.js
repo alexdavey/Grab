@@ -62,6 +62,14 @@ window.__grab = (function(window, document, $, undefined) {
 			return base;
 		},
 
+		subtract : function(model, negative) {
+			var keys = _.keys(negative);
+			_.each(keys, function(key) {
+				delete model[key];
+			});
+			return model;
+		},
+
 		// Simple predicate determines if all key/value pairs in object a 
 		// are also in object b, however not all of b's values have to be in a
 		subset : function(a, b) {
