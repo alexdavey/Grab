@@ -56,7 +56,6 @@
 	var Dropdown = control.addDropdown(currentColor, onSelect);
 
 	function onSelect(index) {
-		console.log(index, colors);
 		Current.setBorder(toCSSColor(colors[index] || settings.initalColor));
 		Selections.setActive(index);
 	}
