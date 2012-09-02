@@ -120,7 +120,7 @@
 	}
 
 	function showText() {
-		currentText = text.value = Selections.getText();
+		currentText = text.value = Selections.getText() || '';
 	}
 
 	function onResize() {
