@@ -1,6 +1,7 @@
 window.settings = {
 	threshold : 2,
-	initialColor : 'black',
+	similarityThreshold : 350,
+	initialColor : { r : 0, g : 0, b : 0 },
 	dropdownChildClass : '.grab-dropdownChild',
 	dropdownClass : '.grab-dropdown',
 	extrapolatedClass : '.grab-extrapolated',

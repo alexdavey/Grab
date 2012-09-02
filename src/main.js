@@ -2,10 +2,36 @@
 
 	"use strict";
 
+	function similarity(a, b) {
+		var dR = Math.abs(a.r - b.r),
+			dG = Math.abs(a.g - b.g),
+			dB = Math.abs(a.b - b.b);
+		return dR + dG + dB;
+	}
+
+	function newColor(colors) {
+		var threshold = settings.similarityThreshold,
+			randomColor = {
+				r : Math.floor(Math.random() * 255),
+				g : Math.floor(Math.random() * 255),
+				b : Math.floor(Math.random() * 255)
+			};
+
+		var similar = _.all(colors, function(color) {
+			return similarity(randomColor, color) < threshold;
+		});
+
+		return similar ? newColor(colors) : randomColor;
+	}
+
+	function toCSSColor(color) {
+		return 'rgb(' + color.r  + ', ' + color.g + ', ' + color.b + ')';
+	}
+
 	var lastHighlighter = null;
 	
 	var currentText = '',
-		currentColor = settings.initialColor;
+		currentColor = toCSSColor(settings.initialColor);
 	
 	var colors = [];
 
@@ -25,27 +51,22 @@
 	var clipboard = $.createElement(document.body, 'textarea', '');
 	clipboard.id = settings.clipboardClass.slice(1);
 
+	colors.push(settings.initialColor);
+
 	var Dropdown = control.addDropdown(currentColor, onSelect);
 
-	colors.push(currentColor);
-
-	function newColor() {
-		var r = Math.random() * 255,
-			g = Math.random() * 255,
-			b = Math.random() * 255;
-		return 'rgb(' + ~~r  + ', ' + ~~g + ', ' + ~~b + ')';
-	}
-
 	function onSelect(index) {
-		Current.setBorder(colors[index]);
+		console.log(index, colors);
+		Current.setBorder(toCSSColor(colors[index] || settings.initalColor));
 		Selections.setActive(index);
 	}
 
 	function addSelection() {
-		var color = newColor();
+		var color = newColor(colors),
+			css = toCSSColor(color);
 		colors.push(color);
-		Selections.addSelection(color);
-		Dropdown.addOption(color);
+		Selections.addSelection(css);
+		Dropdown.addOption(css);
 	}
 
 	function close() {
