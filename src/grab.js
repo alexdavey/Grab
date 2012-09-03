@@ -6,6 +6,8 @@ window.grab = (function (window, document, $, undefined) {
 	// of the node, but confuse the matching function
 	var blacklist = ['protocol'];
 
+	var debug = false;
+
 	function inBlacklist(value, key) {
 		return !_.contains(blacklist, key);
 	}
@@ -60,13 +62,13 @@ window.grab = (function (window, document, $, undefined) {
 			return base;
 		},
 
-		// Remove the properties of one model from the other
+		// Remove the properties of one model if they differ
 		subtract : function (model, negative) {
-			var keys = _.keys(negative);
-			_.each(keys, function (key) {
-				delete model[key];
+			var result = {};
+			_.each(negative, function (value, key) {
+				if (model[key] !== value) result[key] = value;
 			});
-			return model;
+			return result;
 		},
 
 		// Simple predicate determines if all key/value pairs in object a
@@ -81,6 +83,13 @@ window.grab = (function (window, document, $, undefined) {
 			return true;
 		},
 
+		matches : function (model, negative) {
+			return function (element) {
+				return grab.subset(model, element) &&
+					(_.isEmpty(negative) || !grab.subset(negative, element));
+			};
+		},
+
 		// Returns the innerText values of all of elements, with empty lines
 		// removed and the lines remaining joined with newlines
 		data : function (elements) {
@@ -89,20 +98,21 @@ window.grab = (function (window, document, $, undefined) {
 
 		// Extracts a list of potential matches based on the properties of
 		// the model it is given and filters out those which do not match
-		find : function (model) {
-			var matches = [],
-				parentNode;
+		find : function (model, negative) {
+			var matcher = grab.matches(model, negative),
+				matches = [],
+				parentNode = model.parentNode;
 
 			matches = matches.concat($.getClass(model.className));
 			matches = matches.concat($.getTag(model.nodeName));
 
-			if (parentNode = model.parentNode) {
+			if (parentNode) {
 				matches = matches.concat($.getTag(parentNode.nodeName));
 				matches = matches.concat($.getClass(parentNode.className));
 				matches = matches.concat(parentNode.childNodes);
 			}
 
-			return _.filter(matches, _.bind(grab.subset, grab, model));
+			return _.filter(matches, matcher);
 		},
 
 		// Sorts the elements based on thier position in the window, first by

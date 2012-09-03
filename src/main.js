@@ -20,8 +20,7 @@
 	}
 
 	function validTarget(target) {
-		return (control.isOn('select') || control.isOn('remove')) &&
-				!control.isControl(target);
+		return _.any(validStates, control.isOn) && !control.isControl(target);
 	}
 
 	function onMouseDown(e) {
@@ -33,10 +32,12 @@
 
 		if (control.isOn('select')) {
 			Selections.addElement(target);
-		} else {
+		} else if (control.isOn('remove')) {
 			Selections.removeElement(target) ||
 			Selections.removeElement(target.parentNode) ||
 			Selections.removeElement(target.parentNode.parentNode);
+		} else {
+			Selections.addNegative(target);
 		}
 
 		Selections.extrapolate();
@@ -54,14 +55,18 @@
 			lastHighlighter.setIdentifier(settings.confirmedClass);
 		}
 
+		Negative.hide();
+
 		if (!validTarget(target)) return;
 
 		if (control.isOn('select')) {
 			Current.highlightElement(target);
-		} else if (highlighter) {
-			Screen.hide();
+		} else if (control.isOn('remove')) {
+			if (!highlighter) return;
 			highlighter.setIdentifier(settings.removedClass);
 			lastHighlighter = highlighter;
+		} else {
+			Negative.highlightElement(target);
 		}
 	}
 
@@ -77,7 +82,8 @@
 		currentText = text.value = Selections.getText() || '';
 	}
 
-	var lastHighlighter = null;
+	var lastHighlighter = null,
+		validStates = ['select', 'remove', 'negative'];
 	
 	var currentText = '',
 		currentColor = Dropdown.toCSSColor(settings.initialColor);
@@ -85,12 +91,14 @@
 	var Selections = Collection(currentColor);
 
 	var Current = Highlighter(settings.currentClass),
+		Negative = Highlighter(settings.removedClass),
 		Screen = Highlighter(settings.screenClass); // Invisible div that prevents clicks
 	
 	Current.setBorder(currentColor);
 	
 	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
 	control.addToggle('remove', 'Stop', 'Remove');
+	control.addToggle('negative', 'Stop', 'Negative');
 	control.addButton('Get Text', showText);
 	control.addButton('Add selection', addSelection);
 	control.addButton('Close', close);

@@ -12,6 +12,7 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 
 		this.ConfirmedList = [];
 		this.ExtrapolatedList = [];
+		this.NegativeList = [];
 		if (border) this.addSelection(border);
 	}
 
@@ -23,8 +24,12 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 			if (this.Confirmed.size() < settings.threshold) return;
 
 			var same = grab.same(this.Confirmed.elements),
-				elements = grab.find(grab.toModel(same)),
-				extrapolated = _.difference(elements, this.Confirmed.elements);
+				negative = grab.same(this.Negative.elements),
+				blacklist = grab.subtract(same, negative),
+				elements = grab.find(grab.toModel(same), blacklist),
+				extrapolated = _.difference(elements,
+									this.Confirmed.elements,
+									this.Negative.elements);
 
 			_.each(extrapolated, this.Extrapolated.add, this.Extrapolated);
 		},
@@ -32,18 +37,22 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 		clear : function () {
 			this.Extrapolated.clear();
 			this.Confirmed.clear();
+			this.NegativeList.clear();
 		},
 
 		clearAll : function () {
 			_.invoke(this.ExtrapolatedList, 'clear');
 			_.invoke(this.ConfirmedList, 'clear');
+			_.invoke(this.NegativeList, 'clear');
 		},
 
 		addSelection : function (color) {
 			var Confirmed = Selection(settings.confirmedClass, color),
-				Extrapolated = Selection(settings.extrapolatedClass, color);
+				Extrapolated = Selection(settings.extrapolatedClass, color),
+				Negative = Selection(settings.removedClass, color);
 			this.ConfirmedList.push(Confirmed);
 			this.ExtrapolatedList.push(Extrapolated);
+			this.NegativeList.push(Negative);
 			this.setActive(this.ConfirmedList.length - 1);
 		},
 
@@ -55,6 +64,11 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 			this.Confirmed.add(element);
 		},
 
+		addNegative : function (element) {
+			this.Negative.add(element);
+			this.Confirmed.remove(element);
+		},
+
 		removeElement : function (element) {
 			this.Confirmed.remove(element);
 		},
@@ -63,6 +77,7 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 			this.active = index;
 			this.Extrapolated = this.ExtrapolatedList[index];
 			this.Confirmed = this.ConfirmedList[index];
+			this.Negative = this.NegativeList[index];
 		},
 
 		getText : function () {
@@ -75,10 +90,10 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 
 		getAllText : function () {
 			var active = this.active,
-			texts = _.map(this.ConfirmedList, function (Confirmed, i) {
-				this.setActive(i);
-				return this.getText();
-			});
+				texts = _.map(this.ConfirmedList, function (Confirmed, i) {
+					this.setActive(i);
+					return this.getText();
+				});
 			this.setActive(active);
 			return texts;
 		},
