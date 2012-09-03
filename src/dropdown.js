@@ -31,29 +31,14 @@ window.Dropdown = (function(window, document, $, undefined) {
 	}
 
 	function onClick(e) {
-		var target = e.target;
-		if (target === current) showAll();
-		else switchTo(target);
-	}
-
-	function showAll() {
-		_.each(elements, $.show);
-	}
-
-	function hideAll() {
-		_.each(elements, $.hide);
+		if (e.target === current) _.each(elements, $.show);
+		else switchTo(e.target);
 	}
 
 	function switchTo(element) {
-		var index;
-		if (_.isNumber(element)) {
-			index = element;
-			element = elements[element];
-		} else {
-			index = _.indexOf(elements, element);
-		}
+		var index = _.indexOf(elements, element);
 		current = element;
-		hideAll();
+		_.each(elements, $.hide);
 		$.show(element);
 
 		fn(index);
@@ -74,6 +59,7 @@ window.Dropdown = (function(window, document, $, undefined) {
 		this.element.className = settings.dropdownClass.slice(1);
 		this.element.addEventListener('click', onClick, false);
 
+		// Hack to prevent first addOption() from firing a switchTo callback
 		fn = function() { };
 		this.addOption(color);
 		fn = func;
@@ -98,7 +84,7 @@ window.Dropdown = (function(window, document, $, undefined) {
 			this.colors.push(color);
 			this.styles.push(css);
 
-			this.switchTo(element);
+			switchTo(element);
 		},
 
 		removeOption : function(index) {
@@ -112,9 +98,7 @@ window.Dropdown = (function(window, document, $, undefined) {
 
 		currentColor : function() {
 			return this.colors[this.state()];
-		},
-
-		switchTo : switchTo,
+		}
 
 	};
 

@@ -26,7 +26,6 @@
 	var Options = control.addDropdown(settings.initialColor, onSelect);
 
 	function onSelect(index) {
-		console.log('select');
 		Current.setBorder(Options.currentCSS());
 		Selections.setActive(index);
 	}
@@ -42,7 +41,7 @@
 	}
 
 	function validTarget(target) {
-		return (control.isOn('select') || control.isOn('remove')) && 
+		return (control.isOn('select') || control.isOn('remove')) &&
 				!control.isControl(target);
 	}
 
