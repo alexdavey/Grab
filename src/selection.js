@@ -37,11 +37,12 @@ window.Selection = (function (window, document, undefined) {
 
 		remove : function (element) {
 			var index = _.indexOf(this.elements, element);
-			if (index == -1) return;
+			if (index == -1) return false;
 
 			this.highlighters[index].destroy();
 			this.highlighters.splice(index, 1);
 			this.elements.splice(index, 1);
+			return true;
 		},
 
 		has : function (element) {

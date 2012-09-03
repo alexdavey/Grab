@@ -25,14 +25,21 @@
 	}
 
 	function onMouseDown(e) {
-		var target = e.target;
+		var target = e.target,
+			state;
 
 		Screen.hide();
 		if (!validTarget(target)) return;
 		Screen.highlightElement(target);
 
-		if (control.isOn('select')) Selections.addElement(target);
-		else Selections.removeElement(target);
+		if (control.isOn('select')) {
+			Selections.addElement(target);
+		} else {
+			// Useless state variable
+			state = Selections.removeElement(target) ||
+			Selections.removeElement(target.parentNode) ||
+			Selections.removeElement(target.parentNode.parentNode);
+		}
 
 		Selections.extrapolate();
 	}
