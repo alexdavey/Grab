@@ -47,10 +47,6 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 			this.setActive(this.ConfirmedList.length - 1);
 		},
 
-		removeSelection : function () {
-			
-		},
-
 		size : function () {
 			return this.ConfirmedList.length;
 		},

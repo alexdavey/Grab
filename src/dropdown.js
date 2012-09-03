@@ -4,7 +4,7 @@ window.Dropdown = (function (window, document, $, undefined) {
 
 	"use strict";
 
-	var elements, current, fn;
+	var elements, current, currentIndex, fn;
 
 	function similarity(a, b) {
 		var dR = Math.abs(a.r - b.r),
@@ -40,6 +40,7 @@ window.Dropdown = (function (window, document, $, undefined) {
 	function switchTo(element) {
 		var index = _.indexOf(elements, element);
 		current = element;
+		currentIndex = index;
 		_.each(elements, $.hide);
 		$.show(element);
 
@@ -95,11 +96,11 @@ window.Dropdown = (function (window, document, $, undefined) {
 		},
 
 		currentCSS : function () {
-			return this.styles[this.state()];
+			return this.styles[currentIndex];
 		},
 
 		currentColor : function () {
-			return this.colors[this.state()];
+			return this.colors[currentIndex];
 		}
 
 	};

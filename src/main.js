@@ -25,8 +25,7 @@
 	}
 
 	function onMouseDown(e) {
-		var target = e.target,
-			state;
+		var target = e.target;
 
 		Screen.hide();
 		if (!validTarget(target)) return;
@@ -35,8 +34,7 @@
 		if (control.isOn('select')) {
 			Selections.addElement(target);
 		} else {
-			// Useless state variable
-			state = Selections.removeElement(target) ||
+			Selections.removeElement(target) ||
 			Selections.removeElement(target.parentNode) ||
 			Selections.removeElement(target.parentNode.parentNode);
 		}
@@ -88,6 +86,8 @@
 
 	var Current = Highlighter(settings.currentClass),
 		Screen = Highlighter(settings.screenClass); // Invisible div that prevents clicks
+	
+	Current.setBorder(currentColor);
 	
 	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
 	control.addToggle('remove', 'Stop', 'Remove');
