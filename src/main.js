@@ -38,8 +38,11 @@
 	}
 
 	function onMouseMove(e) {
-		var target = e.target,
-			highlighter;
+		var Confirmed = Selections.Confirmed,
+			target = e.target,
+			highlighter = Confirmed.has(target) ||
+							Confirmed.has(target.parentNode) ||
+							Confirmed.has(target.parentNode.parentNode);
 
 		// Reset the color of the last element that was targeted for removal
 		if (lastHighlighter) {
@@ -50,7 +53,7 @@
 
 		if (control.isOn('select')) {
 			Current.highlightElement(target);
-		} else if (highlighter = Selections.Confirmed.has(target)) {
+		} else if (highlighter) {
 			Screen.hide();
 			highlighter.setIdentifier(settings.removedClass);
 			lastHighlighter = highlighter;
