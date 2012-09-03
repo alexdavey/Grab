@@ -1,4 +1,6 @@
-window.__Selection = (function(window, document, undefined) {
+/*globals Highlighter */
+
+window.Selection = (function (window, document, undefined) {
 
 	"use strict";
 
@@ -16,24 +18,24 @@ window.__Selection = (function(window, document, undefined) {
 
 	Selection.prototype = {
 
-		size : function() {
+		size : function () {
 			return this.elements.length;
 		},
 		
-		clear : function() {
+		clear : function () {
 			_.invoke(this.highlighters, 'destroy');
 			this.elements = [];
 			this.highlighters = [];
 		},
 
-		add : function(element) {
+		add : function (element) {
 			if (this.has(element)) return;
 			var Selected = Highlighter(this.identifier, element, this.border);
 			this.elements.push(element);
 			this.highlighters.push(Selected);
 		},
 
-		remove : function(element) {
+		remove : function (element) {
 			var index = _.indexOf(this.elements, element);
 			if (index == -1) return;
 
@@ -42,12 +44,12 @@ window.__Selection = (function(window, document, undefined) {
 			this.elements.splice(index, 1);
 		},
 
-		has : function(element) {
+		has : function (element) {
 			var index = _.indexOf(this.elements, element);
 			return index == -1 ? false : this.highlighters[index];
 		},
 
-		reHighlight : function() {
+		reHighlight : function () {
 			_.invoke(this.highlighters, 'reHighlight');
 		}
 		

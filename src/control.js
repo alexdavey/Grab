@@ -1,8 +1,10 @@
-(function(window, document, $, undefined) {
+/*globals Dropdown */
+
+(function (window, document, $, undefined) {
 
 	"use strict";
 
-	var empty = function() {  };
+	var empty = function () {  };
 
 	var control = window.control = {
 
@@ -12,19 +14,19 @@
 
 		element : $.createElement(document.body, 'div'),
 
-		addElement : function(type, text) {
+		addElement : function (type, text) {
 			var element = $.createElement(control.element, type, text);
 			control.elements.push(element);
 			return element;
 		},
 
-		addButton : function(text, fn) {
+		addButton : function (text, fn) {
 			var element = control.addElement('button', text);
 			element.addEventListener('click', fn, false);
 			return element;
 		},
 
-		addToggle : function(name, on, off, onFn, offFn, context) {
+		addToggle : function (name, on, off, onFn, offFn, context) {
 			var element = control.addButton(off, _.bind(control.toggle, null, name));
 			return (control.toggles[name] = ({
 				context : context,
@@ -38,11 +40,11 @@
 			}));
 		},
 
-		addDropdown : function(color, fn) {
+		addDropdown : function (color, fn) {
 			return Dropdown(this.element, color, fn);
 		},
 
-		toggle : function(name) {
+		toggle : function (name) {
 			var toggle = control.toggles[name];
 			if (toggle.state) {
 				toggle.element.innerText = toggle.off;
@@ -54,20 +56,20 @@
 			toggle.state = !toggle.state;
 		},
 
-		isOn : function(name) {
+		isOn : function (name) {
 			return control.toggles[name].state;
 		},
 
-		isControl : function(element) {
+		isControl : function (element) {
 			return element === control.element ||
 					_.contains(control.elements, element);
 		},
 
-		show : function() {
+		show : function () {
 			$.show(control.element);
 		},
 
-		hide : function() {
+		hide : function () {
 			$.hide(control.element);
 		}
 
@@ -75,4 +77,4 @@
 
 	control.element.id = 'grab-controls';
 
-}(window, document, __$));
+}(window, document, $));

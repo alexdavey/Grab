@@ -1,29 +1,8 @@
-(function(window, document, grab, $, Selection, undefined) {
+/*globals grab Selection control Dropdown Collection settings Highlighter*/
+
+(function (window, document, grab, $, Selection, undefined) {
 
 	"use strict";
-
-	var lastHighlighter = null;
-	
-	var currentText = '',
-		currentColor = Dropdown.toCSSColor(settings.initialColor);
-	
-	var Selections = Collection(currentColor);
-
-	var Current = Highlighter(settings.currentClass),
-		Screen = Highlighter(settings.screenClass); // Invisible div that prevents clicks
-	
-	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
-	control.addToggle('remove', 'Stop', 'Remove');
-	control.addButton('Get Text', showText);
-	control.addButton('Add selection', addSelection);
-	control.addButton('Close', close);
-
-	var text = control.addElement('textarea', '');
-	
-	var clipboard = $.createElement(document.body, 'textarea', '');
-	clipboard.id = settings.clipboardClass.slice(1);
-
-	var Options = control.addDropdown(settings.initialColor, onSelect);
 
 	function onSelect(index) {
 		Current.setBorder(Options.currentCSS());
@@ -90,6 +69,29 @@
 		currentText = text.value = Selections.getText() || '';
 	}
 
+	var lastHighlighter = null;
+	
+	var currentText = '',
+		currentColor = Dropdown.toCSSColor(settings.initialColor);
+	
+	var Selections = Collection(currentColor);
+
+	var Current = Highlighter(settings.currentClass),
+		Screen = Highlighter(settings.screenClass); // Invisible div that prevents clicks
+	
+	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
+	control.addToggle('remove', 'Stop', 'Remove');
+	control.addButton('Get Text', showText);
+	control.addButton('Add selection', addSelection);
+	control.addButton('Close', close);
+
+	var text = control.addElement('textarea', '');
+	
+	var clipboard = $.createElement(document.body, 'textarea', '');
+	clipboard.id = settings.clipboardClass.slice(1);
+
+	var Options = control.addDropdown(settings.initialColor, onSelect);
+
 	document.addEventListener('mousedown', onMouseDown, false);
 	document.addEventListener('mousemove', onMouseMove, false);
 
@@ -97,4 +99,4 @@
 
 	window.addEventListener('resize', _.bind(Selections.reHighlight, Selections), false);
 
-}(window, document, __grab, __$, __Selection));
+}(window, document, grab, $, Selection));

@@ -1,4 +1,6 @@
-window.Dropdown = (function(window, document, $, undefined) {
+/*globals settings */
+
+window.Dropdown = (function (window, document, $, undefined) {
 
 	"use strict";
 
@@ -19,7 +21,7 @@ window.Dropdown = (function(window, document, $, undefined) {
 				b : Math.floor(Math.random() * 255)
 			};
 
-		var similar = _.all(colors, function(color) {
+		var similar = _.all(colors, function (color) {
 			return similarity(randomColor, color) < threshold;
 		});
 
@@ -60,18 +62,18 @@ window.Dropdown = (function(window, document, $, undefined) {
 		this.element.addEventListener('click', onClick, false);
 
 		// Hack to prevent first addOption() from firing a switchTo callback
-		fn = function() { };
+		fn = function () { };
 		this.addOption(color);
 		fn = func;
 	}
 
 	Dropdown.prototype = {
 
-		state : function() {
+		state : function () {
 			return _.indexOf(current, elements);
 		},
 		
-		addOption : function(color) {
+		addOption : function (color) {
 			if (!color) color = newColor(this.colors);
 			var css = toCSSColor(color),
 				element = $.createElement(this.element, 'li', '', {
@@ -87,16 +89,16 @@ window.Dropdown = (function(window, document, $, undefined) {
 			switchTo(element);
 		},
 
-		removeOption : function(index) {
+		removeOption : function (index) {
 			$.removeElement(this.elements[index]);
 			this.elements.splice(index, 1);
 		},
 
-		currentCSS : function() {
+		currentCSS : function () {
 			return this.styles[this.state()];
 		},
 
-		currentColor : function() {
+		currentColor : function () {
 			return this.colors[this.state()];
 		}
 
@@ -106,4 +108,4 @@ window.Dropdown = (function(window, document, $, undefined) {
 
 	return Dropdown;
 
-}(window, document, __$));
+}(window, document, $));

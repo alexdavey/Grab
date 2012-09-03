@@ -1,4 +1,4 @@
-window.Highlighter = (function(window, document, $, undefined) {
+window.Highlighter = (function (window, document, $, undefined) {
 
 	"use strict";
 
@@ -21,15 +21,15 @@ window.Highlighter = (function(window, document, $, undefined) {
 
 	Highlighter.prototype = {
 		
-		hide : function() {
+		hide : function () {
 			$.hide(this.element);
 		},
 
-		show : function() {
+		show : function () {
 			$.show(this.element);
 		},
 
-		highlightElement : function(element) {
+		highlightElement : function (element) {
 			var box = element.getBoundingClientRect();
 			this.highlighting = element;
 			this.show();
@@ -43,21 +43,21 @@ window.Highlighter = (function(window, document, $, undefined) {
 
 		// Recalculate the position of the element (usually called when css
 		// is recalculated upon window resize)
-		reHighlight : function() {
+		reHighlight : function () {
 			this.highlightElement(this.highlighting);
 		},
 
-		destroy : function() {
+		destroy : function () {
 			$.removeElement(this.element);
 		},
 
 		// Set either class or id based on a '.' or a '#' prefix respectively
-		setIdentifier : function(identifier) {
+		setIdentifier : function (identifier) {
 			if (identifier[0] == '.') this.element.className = identifier.slice(1);
 			else this.element.id = identifier.slice(1);
 		},
 
-		setBorder : function(color) {
+		setBorder : function (color) {
 			$.css(this.element, { 'border-color' : color });
 		}
 
@@ -65,4 +65,4 @@ window.Highlighter = (function(window, document, $, undefined) {
 
 	return Highlighter;
 	
-}(window, document, __$));
+}(window, document, $));

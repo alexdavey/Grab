@@ -1,4 +1,4 @@
-window.__grab = (function(window, document, $, undefined) {
+window.grab = (function (window, document, $, undefined) {
 
 	"use strict";
 
@@ -13,7 +13,7 @@ window.__grab = (function(window, document, $, undefined) {
 	// Functions identically to _.filter except returns an object
 	function filterObject(object, predicate) {
 		var clone = {};
-		_.each(object, function(value, key) {
+		_.each(object, function (value, key) {
 			if (predicate(value, key)) clone[key] = value;
 		});
 		return clone;
@@ -25,13 +25,13 @@ window.__grab = (function(window, document, $, undefined) {
 	// 		_.each(value, function(value, key) {
 	// 			intersect(base[key], model[key], key, value);
 	// 		});
-	// 	} 
+	// 	}
 	// 	else if (model[key] !== value) delete base[key];
 	// }
 
 	function compare(base, models, iterator) {
-	_.each(models, function(model) {
-			_.each(base, function(value, key) {
+		_.each(models, function (model) {
+			_.each(base, function (value, key) {
 				iterator(model, key, value);
 			});
 		});
@@ -42,36 +42,36 @@ window.__grab = (function(window, document, $, undefined) {
 		// Reduces a node to a simple object with all superfluous values
 		// removed, first by removing any keys in the blacklist, then any
 		// undefined/null or empty string values
-		toModel : function(node) {
+		toModel : function (node) {
 			var filtered = filterObject(node, inBlacklist);
-			return filterObject(filtered, function(value, key) {
-				return (value != null && value !== "") &&
+			return filterObject(filtered, function (value, key) {
+				return (value !== null && value !== undefined && value !== "") &&
 					(_.isObject(value) || _.isString(value) || _.isNumber(value));
 			});
 		},
 
 		// Returns the intersection of all models passed to it, that is the
 		// set of properties and values that all of the models share.
-		same : function(models) {
+		same : function (models) {
 			var base = grab.toModel(models[0]);
-			compare(base, _.rest(models), function(model, key, value) {
+			compare(base, _.rest(models), function (model, key, value) {
 				if (model[key] !== value) delete base[key];
 			});
 			return base;
 		},
 
 		// Remove the properties of one model from the other
-		subtract : function(model, negative) {
+		subtract : function (model, negative) {
 			var keys = _.keys(negative);
-			_.each(keys, function(key) {
+			_.each(keys, function (key) {
 				delete model[key];
 			});
 			return model;
 		},
 
-		// Simple predicate determines if all key/value pairs in object a 
+		// Simple predicate determines if all key/value pairs in object a
 		// are also in object b, however not all of b's values have to be in a
-		subset : function(a, b) {
+		subset : function (a, b) {
 			for (var i in a) {
 				if (!a.hasOwnProperty(i)) continue;
 				if (!b.hasOwnProperty(i) || b[i] !== a[i]) {
@@ -83,13 +83,13 @@ window.__grab = (function(window, document, $, undefined) {
 
 		// Returns the innerText values of all of elements, with empty lines
 		// removed and the lines remaining joined with newlines
-		data : function(elements) {
+		data : function (elements) {
 			return _.reject(_.pluck(elements, 'innerText'), _.isEmpty).join('\n');
 		},
 
 		// Extracts a list of potential matches based on the properties of
 		// the model it is given and filters out those which do not match
-		find : function(model) {
+		find : function (model) {
 			var matches = [],
 				parentNode;
 
@@ -107,10 +107,10 @@ window.__grab = (function(window, document, $, undefined) {
 
 		// Sorts the elements based on thier position in the window, first by
 		// y value, then by x value
-		order : function(matches) {
-			return _.sortBy(matches, function(match) {
+		order : function (matches) {
+			return _.sortBy(matches, function (match) {
 				var box = match.getBoundingClientRect();
-				return (box.top + window.pageYOffset) + 
+				return (box.top + window.pageYOffset) +
 						(box.left + window.pageXOffset) / 1000;
 			});
 		}
@@ -119,4 +119,4 @@ window.__grab = (function(window, document, $, undefined) {
 
 	return grab;
 
-}(window, document, __$));
+}(window, document, $));

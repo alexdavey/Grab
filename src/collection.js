@@ -1,4 +1,6 @@
-window.Collection = (function(window, document, Selection, grab, undefined) {
+/*globals Selection settings grab*/
+
+window.Collection = (function (window, document, Selection, grab, undefined) {
 
 	"use strict";
 
@@ -15,7 +17,7 @@ window.Collection = (function(window, document, Selection, grab, undefined) {
 
 	Collection.prototype = {
 
-		extrapolate : function() {
+		extrapolate : function () {
 			this.Extrapolated.clear();
 
 			if (this.Confirmed.size() < settings.threshold) return;
@@ -27,17 +29,17 @@ window.Collection = (function(window, document, Selection, grab, undefined) {
 			_.each(extrapolated, this.Extrapolated.add, this.Extrapolated);
 		},
 
-		clear : function() {
+		clear : function () {
 			this.Extrapolated.clear();
 			this.Confirmed.clear();
 		},
 
-		clearAll : function() {
+		clearAll : function () {
 			_.invoke(this.ExtrapolatedList, 'clear');
 			_.invoke(this.ConfirmedList, 'clear');
 		},
 
-		addSelection : function(color) {
+		addSelection : function (color) {
 			var Confirmed = Selection(settings.confirmedClass, color),
 				Extrapolated = Selection(settings.extrapolatedClass, color);
 			this.ConfirmedList.push(Confirmed);
@@ -45,29 +47,29 @@ window.Collection = (function(window, document, Selection, grab, undefined) {
 			this.setActive(this.ConfirmedList.length - 1);
 		},
 
-		removeSelection : function() {
+		removeSelection : function () {
 			
 		},
 
-		size : function() {
+		size : function () {
 			return this.ConfirmedList.length;
 		},
 
-		addElement : function(element) {
+		addElement : function (element) {
 			this.Confirmed.add(element);
 		},
 
-		removeElement : function(element) {
+		removeElement : function (element) {
 			this.Confirmed.remove(element);
 		},
 
-		setActive : function(index) {
+		setActive : function (index) {
 			this.active = index;
 			this.Extrapolated = this.ExtrapolatedList[index];
 			this.Confirmed = this.ConfirmedList[index];
 		},
 
-		getText : function() {
+		getText : function () {
 			if (this.Confirmed.size() < settings.threshold) return;
 			var active = this.Confirmed.elements,
 				extrapolated = this.Extrapolated.elements,
@@ -75,17 +77,17 @@ window.Collection = (function(window, document, Selection, grab, undefined) {
 			return grab.data(ordered);
 		},
 
-		getAllText : function() {
+		getAllText : function () {
 			var active = this.active,
-			texts = _.map(this.ConfirmedList, function(Confirmed, i) {
-				setActive(i);
+			texts = _.map(this.ConfirmedList, function (Confirmed, i) {
+				this.setActive(i);
 				return this.getText();
 			});
-			setActive(active);
+			this.setActive(active);
 			return texts;
 		},
 
-		reHighlight : function() {
+		reHighlight : function () {
 			_.invoke(this.ExtrapolatedList, 'reHighlight');
 			_.invoke(this.ConfirmedList, 'reHighlight');
 		}
@@ -94,4 +96,4 @@ window.Collection = (function(window, document, Selection, grab, undefined) {
 
 	return Collection;
 	
-}(window, document, __Selection, __grab));
+}(window, document, Selection, grab));

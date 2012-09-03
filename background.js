@@ -1,4 +1,8 @@
-chrome.browserAction.onClicked.addListener(function(tab) {
+/*globals chrome */
+
+"use strict";
+
+chrome.browserAction.onClicked.addListener(function (tab) {
 	chrome.tabs.insertCSS(null, { file : 'src/ui.css' });
 	chrome.tabs.executeScript(null, { file : 'lib/underscore.js' });
 	chrome.tabs.executeScript(null, { file : 'src/dom.js' });

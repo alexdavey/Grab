@@ -1,24 +1,24 @@
-(function(window, document, undefined) {
+(function (window, document, undefined) {
 	
 	"use strict";
 
-	var $ = window.__$ = {
+	var $ = window.$ = {
 		
-		css : function(element, styles) {
-			_.each(styles, function(value, key) {
+		css : function (element, styles) {
+			_.each(styles, function (value, key) {
 				element.style[key] = _.isNumber(value) ? value + 'px' : value;
 			});
 		},
 
-		hide : function(element) {
+		hide : function (element) {
 			$.css(element, { display : 'none' });
 		},
 
-		show : function(element) {
+		show : function (element) {
 			$.css(element, { display : 'block' });
 		},
 
-		createElement : function(parentNode, name, text, styles) {
+		createElement : function (parentNode, name, text, styles) {
 			if (!_.isString(text)) {
 				styles = text;
 				text = '';
@@ -30,15 +30,15 @@
 			return element;
 		},
 
-		removeElement : function(element) {
+		removeElement : function (element) {
 			element.parentNode.removeChild(element);
 		},
 
-		getClass : function(className) {
+		getClass : function (className) {
 			return _.toArray(document.getElementsByClassName(className));
 		},
 
-		getTag : function(tagName) {
+		getTag : function (tagName) {
 			return _.toArray(document.getElementsByTagName(tagName));
 		},
 
