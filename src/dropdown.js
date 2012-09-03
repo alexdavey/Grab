@@ -4,10 +4,31 @@ window.Dropdown = (function(window, document, $, undefined) {
 
 	var elements, current, fn;
 
-	// function textColor(color) {
-	// 	var yiq = (color.r * 299 + color.g * 587 + color.b * 114) / 1000;
-	// 	return yiq >= 128 ? 'black' : 'white';
-	// }
+	function similarity(a, b) {
+		var dR = Math.abs(a.r - b.r),
+			dG = Math.abs(a.g - b.g),
+			dB = Math.abs(a.b - b.b);
+		return dR + dG + dB;
+	}
+
+	function newColor(colors) {
+		var threshold = settings.similarityThreshold,
+			randomColor = {
+				r : Math.floor(Math.random() * 255),
+				g : Math.floor(Math.random() * 255),
+				b : Math.floor(Math.random() * 255)
+			};
+
+		var similar = _.all(colors, function(color) {
+			return similarity(randomColor, color) < threshold;
+		});
+
+		return similar ? newColor(colors) : randomColor;
+	}
+
+	function toCSSColor(color) {
+		return 'rgb(' + color.r  + ', ' + color.g + ', ' + color.b + ')';
+	}
 
 	function onClick(e) {
 		var target = e.target;
@@ -45,14 +66,17 @@ window.Dropdown = (function(window, document, $, undefined) {
 			return new Dropdown(parentNode, color, func);
 		}
 
-		fn = func;
-
 		this.elements = elements = [];
+		this.colors = [];
+		this.styles = [];
 
 		this.element = current = $.createElement(parentNode, 'ul', '');
 		this.element.className = settings.dropdownClass.slice(1);
 		this.element.addEventListener('click', onClick, false);
+
+		fn = function() { };
 		this.addOption(color);
+		fn = func;
 	}
 
 	Dropdown.prototype = {
@@ -62,11 +86,18 @@ window.Dropdown = (function(window, document, $, undefined) {
 		},
 		
 		addOption : function(color) {
-			var element = $.createElement(this.element, 'li', '', {
-				background : color
-			});
+			if (!color) color = newColor(this.colors);
+			var css = toCSSColor(color),
+				element = $.createElement(this.element, 'li', '', {
+					background : css
+				});
+
 			element.className = settings.dropdownChildClass.slice(1);
 			this.elements.push(element);
+
+			this.colors.push(color);
+			this.styles.push(css);
+
 			this.switchTo(element);
 		},
 
@@ -75,11 +106,19 @@ window.Dropdown = (function(window, document, $, undefined) {
 			this.elements.splice(index, 1);
 		},
 
-		switchTo : function(element) {
-			switchTo(element);
-		}
+		currentCSS : function() {
+			return this.styles[this.state()];
+		},
+
+		currentColor : function() {
+			return this.colors[this.state()];
+		},
+
+		switchTo : switchTo,
 
 	};
+
+	Dropdown.toCSSColor = toCSSColor;
 
 	return Dropdown;
 
