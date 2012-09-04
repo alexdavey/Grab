@@ -4,6 +4,14 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 
 	"use strict";
 
+	function concat(a, b) {
+		return a.concat(b);
+	}
+
+	function allElements(collection) {
+		return _.chain(collection).pluck('elements').reduce(concat).value();
+	}
+
 	function Collection(border) {
 
 		if (!(this instanceof Collection)) {
@@ -89,13 +97,10 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 		},
 
 		getAllText : function () {
-			var active = this.active,
-				texts = _.map(this.ConfirmedList, function (Confirmed, i) {
-					this.setActive(i);
-					return this.getText();
-				});
-			this.setActive(active);
-			return texts;
+			var active = allElements(this.ConfirmedList),
+				extrapolated = allElements(this.ExtrapolatedList),
+				ordered = grab.order(active.concat(extrapolated));
+			return grab.data(ordered);
 		},
 
 		reHighlight : function () {

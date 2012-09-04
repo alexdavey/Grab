@@ -79,7 +79,7 @@
 	}
 
 	function showText() {
-		currentText = text.value = Selections.getText() || '';
+		currentText = text.value = Selections.getAllText() || '';
 	}
 
 	var lastHighlighter = null,

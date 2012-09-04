@@ -93,7 +93,8 @@ window.grab = (function (window, document, $, undefined) {
 		// Returns the innerText values of all of elements, with empty lines
 		// removed and the lines remaining joined with newlines
 		data : function (elements) {
-			return _.reject(_.pluck(elements, 'innerText'), _.isEmpty).join('\n');
+			return _.chain(elements).pluck('innerText')
+					.reject(_.isEmpty).value().join('\n');
 		},
 
 		// Extracts a list of potential matches based on the properties of
