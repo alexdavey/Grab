@@ -45,7 +45,7 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 		clear : function () {
 			this.Extrapolated.clear();
 			this.Confirmed.clear();
-			this.NegativeList.clear();
+			this.Negative.clear();
 		},
 
 		clearAll : function () {

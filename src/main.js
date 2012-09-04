@@ -16,7 +16,7 @@
 
 	function close() {
 		control.hide();
-		Selections.clear();
+		Selections.clearAll();
 	}
 
 	function validTarget(target) {
