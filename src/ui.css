@@ -4,7 +4,6 @@
 
 #grab-currentSelection, .grab-confirmed, .grab-extrapolated, .grab-removed {
 	margin-left : -3px;
-	/* border-left : 3px solid black; */
 	border-left-width : 3px;
 	border-left-style : solid;
 	padding-right : 3px;
