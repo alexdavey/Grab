@@ -10,7 +10,7 @@
 
 		elements : [],
 
-		toggles : [],
+		toggles : {},
 
 		element : $.createElement(document.body, 'div'),
 
@@ -41,19 +41,24 @@
 		},
 
 		addDropdown : function (color, fn) {
-			return Dropdown(this.element, color, fn);
+			return Dropdown(control.element, color, fn);
 		},
 
 		toggle : function (name) {
 			var toggle = control.toggles[name];
 			if (toggle.state) {
 				toggle.element.innerText = toggle.off;
-				toggle.offFn.call(toggle.context);
+				toggle.offFn.call(toggle.context, name);
 			} else {
 				toggle.element.innerText = toggle.on;
-				toggle.onFn.call(toggle.context);
+				toggle.onFn.call(toggle.context, name);
 			}
+			control.onToggle(name, toggle.state);
 			toggle.state = !toggle.state;
+		},
+
+		onToggle : function (fn) {
+			control.onToggle = fn;
 		},
 
 		isOn : function (name) {

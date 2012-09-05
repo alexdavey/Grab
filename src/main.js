@@ -4,6 +4,15 @@
 
 	"use strict";
 
+	function deactivateOthers(name, state) {
+		if (state) return;
+		_.each(control.toggles, function (toggle) {
+			if (toggle.state && toggle.name != name) {
+				control.toggle(toggle.name);
+			}
+		});
+	}
+
 	function onSelect(index) {
 		Current.setBorder(Options.currentCSS());
 		Selections.setActive(index);
@@ -102,6 +111,7 @@
 	control.addButton('Get Text', showText);
 	control.addButton('Add selection', addSelection);
 	control.addButton('Close', close);
+	control.onToggle(deactivateOthers);
 
 	var text = control.addElement('textarea', '');
 	
