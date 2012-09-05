@@ -79,6 +79,7 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 
 		removeElement : function (element) {
 			this.Confirmed.remove(element);
+			this.Negative.remove(element);
 		},
 
 		setActive : function (index) {
