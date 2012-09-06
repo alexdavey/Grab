@@ -40,7 +40,7 @@
 
 		getTag : function (tagName) {
 			return _.toArray(document.getElementsByTagName(tagName));
-		},
+		}
 
 	};
 
