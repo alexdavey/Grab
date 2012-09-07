@@ -23,12 +23,12 @@
 		addButton : function (text, fn) {
 			var element = control.addElement('button', text);
 			element.addEventListener('click', fn, false);
-			return element;
+			return control;
 		},
 
 		addToggle : function (name, on, off, onFn, offFn, context) {
 			var element = control.addButton(off, _.bind(control.toggle, null, name));
-			return (control.toggles[name] = ({
+			control.toggles[name] = {
 				context : context,
 				element : element,
 				name : name,
@@ -37,7 +37,8 @@
 				onFn : onFn || empty,
 				offFn : offFn || empty,
 				state : false
-			}));
+			};
+			return control;
 		},
 
 		addDropdown : function (color, fn) {
@@ -76,6 +77,11 @@
 
 		hide : function () {
 			$.hide(control.element);
+		},
+
+		toggleVisibility : function () {
+			if (control.element.style.display == 'none') control.show();
+			else control.hide();
 		}
 
 	};

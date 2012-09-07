@@ -1,8 +1,16 @@
-/*globals grab Selection control Dropdown Collection settings Highlighter*/
+/*globals grab Selection chrome control Dropdown Collection settings Highlighter*/
 
 (function (window, document, grab, $, Selection, undefined) {
 
 	"use strict";
+
+	window.toggle = function () {
+		control.toggleVisibility();
+		if (!Selections.size()) return;
+		Selections.clearAll();
+		Screen.destroy();
+		Current.destroy();
+	};
 
 	function deactivateOthers(name, state) {
 		if (state) return;
@@ -21,11 +29,6 @@
 	function addSelection() {
 		Options.addOption();
 		Selections.addSelection(Options.currentCSS());
-	}
-
-	function close() {
-		control.hide();
-		Selections.clearAll();
 	}
 
 	function validTarget(target) {
@@ -92,9 +95,8 @@
 	}
 
 	var lastHighlighter = null,
-		validStates = ['select', 'remove', 'negative'];
-	
-	var currentText = '',
+		validStates = ['select', 'remove', 'negative'],
+		currentText = '',
 		currentColor = Dropdown.toCSSColor(settings.initialColor);
 	
 	var Selections = Collection(currentColor);
@@ -105,26 +107,28 @@
 	
 	Current.setBorder(currentColor);
 	
-	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
-	control.addToggle('remove', 'Stop', 'Remove');
-	control.addToggle('negative', 'Stop', 'Negative');
-	control.addButton('Get Text', showText);
-	control.addButton('Add selection', addSelection);
-	control.addButton('Close', close);
-	control.onToggle(deactivateOthers);
+	control
+		.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current)
+		.addToggle('remove', 'Stop', 'Remove')
+		.addToggle('negative', 'Stop', 'Negative')
+		.addButton('Get Text', showText)
+		.addButton('Add selection', addSelection)
+		.addButton('Close', toggle)
+		.onToggle(deactivateOthers);
 
-	var text = control.addElement('textarea', '');
+	var text = control.addElement('textarea', ''),
+		Options = control.addDropdown(settings.initialColor, onSelect);
+
+	var reHighlight = _.bindAll(Selections, 'reHighlight'),
+		registerUnload = function () { chrome.extension.sendMessage(''); };
 	
 	var clipboard = $.createElement(document.body, 'textarea', '');
 	clipboard.id = settings.clipboardClass.slice(1);
 
-	var Options = control.addDropdown(settings.initialColor, onSelect);
-
-	document.addEventListener('mousedown', onMouseDown, false);
-	document.addEventListener('mousemove', onMouseMove, false);
-
-	document.addEventListener('keydown', onKeyDown, false);
-
-	window.addEventListener('resize', _.bind(Selections.reHighlight, Selections), false);
+	$.listen('mousedown', onMouseDown);
+	$.listen('mousemove', onMouseMove);
+	$.listen('keydown', onKeyDown);
+	$.listen(window, 'resize', reHighlight);
+	$.listen(window, 'unload', registerUnload);
 
 }(window, document, grab, $, Selection));

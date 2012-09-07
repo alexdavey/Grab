@@ -40,6 +40,15 @@
 
 		getTag : function (tagName) {
 			return _.toArray(document.getElementsByTagName(tagName));
+		},
+
+		listen : function (object, eventName, callback) {
+			if (_.isString(object)) {
+				callback = eventName;
+				eventName = object;
+				object = document;
+			}
+			return object.addEventListener(eventName, callback, false);
 		}
 
 	};

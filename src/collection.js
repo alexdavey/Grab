@@ -42,16 +42,13 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 			_.each(extrapolated, this.Extrapolated.add, this.Extrapolated);
 		},
 
-		clear : function () {
-			this.Extrapolated.clear();
-			this.Confirmed.clear();
-			this.Negative.clear();
-		},
-
 		clearAll : function () {
 			_.invoke(this.ExtrapolatedList, 'clear');
 			_.invoke(this.ConfirmedList, 'clear');
 			_.invoke(this.NegativeList, 'clear');
+			this.ExtrapolatedList = [];
+			this.ConfirmedList = [];
+			this.NegativeList = [];
 		},
 
 		addSelection : function (color) {

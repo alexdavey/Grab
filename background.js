@@ -1,4 +1,4 @@
-/*globals chrome control*/
+/*globals chrome */
 
 "use strict";
 
@@ -9,8 +9,8 @@ var js = ['dom', 'grab', 'settings', 'highlighter', 'selection',
 
 var visitedTabs = {};
 
-function showControl() {
-	tabs.executeScript(null, { code : 'window.control.show();' });
+function toggleControl() {
+	tabs.executeScript(null, { code : 'toggle();' });
 }
 
 function insertExtension() {
@@ -22,12 +22,19 @@ function insertExtension() {
 	}
 }
 
+function onUnload(fn) {
+	chrome.extension.onMessage.addListener(function (request, sender) {
+		fn(sender.tab.id);
+	});
+}
+
 chrome.browserAction.onClicked.addListener(function (tab) {
 	var id = tab.id;
 	if (visitedTabs[id]) {
-		showControl();
+		toggleControl();
 	} else {
 		visitedTabs[id] = true;
 		insertExtension();
+		onUnload(function (id) { visitedTabs[id] = undefined; });
 	}
 });
