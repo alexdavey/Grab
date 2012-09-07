@@ -2,20 +2,32 @@
 
 "use strict";
 
-var tabs = chrome.tabs,
-	fired = false;
+var tabs = chrome.tabs;
 
 var js = ['dom', 'grab', 'settings', 'highlighter', 'selection',
 			'collection', 'dropdown', 'control', 'main'];
 
-chrome.browserAction.onClicked.addListener(function () {
-	if (fired) return tabs.executeScript(null, { file : 'src/showControl.js' });
-	fired = true;
+var visitedTabs = {};
 
+function showControl() {
+	tabs.executeScript(null, { code : 'window.control.show();' });
+}
+
+function insertExtension() {
 	tabs.insertCSS(null, { file : 'src/ui.css' });
 	tabs.executeScript(null, { file : 'lib/underscore.js' });
 
 	for (var i = 0, l = js.length; i < l; i++) {
 		tabs.executeScript(null, { file : 'src/' + js[i] + '.js' });
+	}
+}
+
+chrome.browserAction.onClicked.addListener(function (tab) {
+	var id = tab.id;
+	if (visitedTabs[id]) {
+		showControl();
+	} else {
+		visitedTabs[id] = true;
+		insertExtension();
 	}
 });
