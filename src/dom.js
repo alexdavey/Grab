@@ -49,6 +49,26 @@
 				object = document;
 			}
 			return object.addEventListener(eventName, callback, false);
+		},
+
+		isMacOs : function () {
+			return navigator.appVersion.indexOf('Mac') != -1;
+		},
+
+		animate : function (element, property, to, time, callback) {
+			var interval,
+				styles = element.style,
+				from = +styles[property],
+				step = (to - from) / (time / 50),
+				timeout = setTimeout(function () {
+					clearInterval(interval);
+					styles[property] = to;
+					callback();
+				}, time);
+
+			interval = setInterval(function () {
+				styles[property] = (from += step);
+			}, 50);
 		}
 
 	};

@@ -31,6 +31,17 @@
 	height : 20px;
 }
 
+.grab-popup {
+	opacity : 1;
+	z-index : 99999;
+	position : fixed;
+	top : 50%;
+	left : 50%;
+	padding : 10px;
+	background : rgba(0, 0, 0, 0.8);
+	-webkit-border-radius : 5px;
+}
+
 #grab-controls textarea {
 	margin : 0;
 	padding : 0;
@@ -50,7 +61,7 @@
 }
 
 #grab-controls {
-	z-index : 100000000000000;
+	z-index : 999999;
 	position : fixed;
 	width : 250px;
 	height : 100px;

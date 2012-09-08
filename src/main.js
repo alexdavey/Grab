@@ -1,4 +1,4 @@
-/*globals grab Selection chrome control Dropdown Collection settings Highlighter*/
+/*globals grab Selection chrome control Dropdown Collection settings Highlighter Popup*/
 
 (function (window, document, grab, $, Selection, undefined) {
 
@@ -37,7 +37,8 @@
 
 	function onMouseDown(e) {
 		var target = e.target;
-
+		
+		Overlay.hide();
 		Screen.hide();
 		if (!validTarget(target)) return;
 		Screen.highlightElement(target);
@@ -84,20 +85,28 @@
 
 	function onKeyDown(e) {
 		var keyCode = e.keyCode;
-		if (keyCode == 17 || keyCode == 91 || keyCode == 93) {
-			clipboard.value = currentText;
+		if (keyCode == 17 || keyCode == 91) {
+			modifierDown = true;
 			clipboard.select();
+		} else if (keyCode == 67 && modifierDown) {
+			Overlay.setText(settings.copiedMessage);
 		}
 	}
 
+	function onKeyUp(e) {
+		if (e.keyCode == 17 || e.keyCode == 91) modifierDown = false;
+	}
+
 	function showText() {
-		currentText = text.value = Selections.getAllText() || '';
+		clipboard.value = Selections.getAllText() || '';
+		Overlay.setText(settings.copyMessage);
 	}
 
 	var lastHighlighter = null,
 		validStates = ['select', 'remove', 'negative'],
-		currentText = '',
 		currentColor = Dropdown.toCSSColor(settings.initialColor);
+	
+	var modifierDown = false;
 	
 	var Selections = Collection(currentColor);
 
@@ -113,11 +122,12 @@
 		.addToggle('negative', 'Stop', 'Negative')
 		.addButton('Get Text', showText)
 		.addButton('Add selection', addSelection)
-		.addButton('Close', toggle)
+		.addButton('Close', window.toggle)
 		.onToggle(deactivateOthers);
 
-	var text = control.addElement('textarea', ''),
-		Options = control.addDropdown(settings.initialColor, onSelect);
+	// var text = control.addElement('textarea', '');
+	var	Options = control.addDropdown(settings.initialColor, onSelect),
+		Overlay = Popup('').hide();
 
 	var reHighlight = _.bindAll(Selections, 'reHighlight'),
 		registerUnload = function () { chrome.extension.sendMessage(''); };
@@ -128,6 +138,7 @@
 	$.listen('mousedown', onMouseDown);
 	$.listen('mousemove', onMouseMove);
 	$.listen('keydown', onKeyDown);
+	$.listen('keyup', onKeyUp);
 	$.listen(window, 'resize', reHighlight);
 	$.listen(window, 'unload', registerUnload);
 
