@@ -1,4 +1,4 @@
-/*globals Dropdown */
+/*globals Dropdown settings */
 
 (function (window, document, $, undefined) {
 
@@ -23,7 +23,7 @@
 		addButton : function (text, fn) {
 			var element = control.addElement('button', text);
 			element.addEventListener('click', fn, false);
-			return control;
+			return element;
 		},
 
 		addToggle : function (name, on, off, onFn, offFn, context) {
@@ -38,7 +38,7 @@
 				offFn : offFn || empty,
 				state : false
 			};
-			return control;
+			return control.toggles[name];
 		},
 
 		addDropdown : function (color, fn) {
@@ -86,6 +86,6 @@
 
 	};
 
-	control.element.id = 'grab-controls';
+	control.element.id = settings.controlId.slice(1);
 
 }(window, document, $));

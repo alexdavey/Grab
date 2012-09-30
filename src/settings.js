@@ -3,14 +3,15 @@ window.settings = {
 	similarityThreshold : 350,
 	initialColor : { r : 0, g : 0, b : 0 },
 	copyMessage : 'Press ' + ($.isMacOs ? 'Cmd' : 'Ctrl') + '-C to copy',
-	copiedMessage : 'Text copied!',
 	popupClass : '.grab-popup',
-	dropdownChildClass : '.grab-dropdownChild',
+	copiedMessage : 'Text copied!',
 	dropdownClass : '.grab-dropdown',
-	extrapolatedClass : '.grab-extrapolated',
 	confirmedClass : '.grab-confirmed',
-	currentClass : '#grab-currentSelection',
+	extrapolatedClass : '.grab-extrapolated',
+	dropdownChildClass : '.grab-dropdownChild',
+	controlId : '#grab-controls',
 	screenClass : '#grab-screen',
 	removedClass : '.grab-removed',
-	clipboardClass : '#grab-clipboard'
+	clipboardClass : '#grab-clipboard',
+	currentClass : '#grab-currentSelection'
 };

@@ -116,14 +116,13 @@
 	
 	Current.setBorder(currentColor);
 	
-	control
-		.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current)
-		.addToggle('remove', 'Stop', 'Remove')
-		.addToggle('negative', 'Stop', 'Negative')
-		.addButton('Get Text', showText)
-		.addButton('Add selection', addSelection)
-		.addButton('Close', window.toggle)
-		.onToggle(deactivateOthers);
+	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
+	control.addToggle('remove', 'Stop', 'Remove');
+	control.addToggle('negative', 'Stop', 'Negative');
+	control.addButton('Get Text', showText);
+	control.addButton('Add selection', addSelection);
+	control.addButton('Close', window.toggle);
+	control.onToggle(deactivateOthers);
 
 	// var text = control.addElement('textarea', '');
 	var	Options = control.addDropdown(settings.initialColor, onSelect),
