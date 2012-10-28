@@ -12,15 +12,6 @@
 		Current.destroy();
 	};
 
-	function deactivateOthers(name, state) {
-		if (state) return;
-		_.each(control.toggles, function (toggle) {
-			if (toggle.state && toggle.name != name) {
-				control.toggle(toggle.name);
-			}
-		});
-	}
-
 	function hasOrIsChildElement(collection, target) {
 		var depth = settings.bubbleDepth;
 		while (!collection.has(target)) {
@@ -96,6 +87,9 @@
 			clipboard.select();
 		} else if (keyCode == 67 && modifierDown) {
 			Overlay.setText(settings.copiedMessage);
+		} else if (keyCode == 27) {
+			control.setAll('off');
+			Negative.hide();
 		}
 	}
 
@@ -127,7 +121,7 @@
 	control.addButton('Get Text', showText);
 	control.addButton('Add selection', addSelection);
 	control.addButton('Close', window.toggle);
-	control.onToggle(deactivateOthers);
+	control.onToggle(_.bind(control.setAll, null, 'off'));
 
 	// var text = control.addElement('textarea', '');
 	var	Options = control.addDropdown(settings.initialColor, onSelect),

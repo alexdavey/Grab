@@ -58,6 +58,15 @@
 			toggle.state = !toggle.state;
 		},
 
+		setAll : function (state, exception) {
+			var state = (state == 'on');
+			_.each(control.toggles, function (toggle, name) {
+				if (toggle.state != state && name !== exception) {
+					control.toggle(name);
+				}
+			});
+		},
+
 		onToggle : function (fn) {
 			control.onToggle = fn;
 		},
