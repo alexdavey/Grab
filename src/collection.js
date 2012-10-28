@@ -108,6 +108,7 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 		reHighlight : function () {
 			_.invoke(this.ExtrapolatedList, 'reHighlight');
 			_.invoke(this.ConfirmedList, 'reHighlight');
+			_.invoke(this.NegativeList, 'reHighlight');
 		}
 		
 	};

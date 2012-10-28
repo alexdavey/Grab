@@ -118,7 +118,7 @@
 
 	var Current = Highlighter(settings.currentClass),
 		Negative = Highlighter(settings.removedClass),
-		Screen = Highlighter(settings.screenClass); // Invisible div that prevents clicks
+		Screen = Highlighter(settings.screenClass); // Div prevents clicks
 	
 	Current.setBorder(currentColor);
 	
@@ -132,9 +132,6 @@
 	// var text = control.addElement('textarea', '');
 	var	Options = control.addDropdown(settings.initialColor, onSelect),
 		Overlay = Popup('').hide();
-
-	var reHighlight = _.bindAll(Selections, 'reHighlight'),
-		registerUnload = function () { chrome.extension.sendMessage(''); };
 	
 	var clipboard = $.createElement(document.body, 'textarea', '');
 	clipboard.id = settings.clipboardClass.slice(1);
@@ -143,7 +140,7 @@
 	$.listen('mousemove', onMouseMove);
 	$.listen('keydown', onKeyDown);
 	$.listen('keyup', onKeyUp);
-	$.listen(window, 'resize', reHighlight);
-	$.listen(window, 'unload', registerUnload);
+	$.listen(window, 'resize', _.bind(Selections.reHighlight, Selections));
+	$.listen(window, 'unload', function () { chrome.extension.sendMessage(''); });
 
 }(window, document, grab, $, Selection));
