@@ -79,6 +79,10 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 			this.Negative.remove(element);
 		},
 
+		has : function (element) {
+			return this.Confirmed.has(element) || this.Negative.has(element);
+		},
+
 		setActive : function (index) {
 			this.active = index;
 			this.Extrapolated = this.ExtrapolatedList[index];

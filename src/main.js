@@ -21,6 +21,15 @@
 		});
 	}
 
+	function hasOrIsChildElement(collection, target) {
+		var depth = settings.bubbleDepth;
+		while (!collection.has(target)) {
+			if (depth-- < 0 || target === null) return false;
+			target = target.parentNode;
+		}
+		return target;
+	}
+
 	function onSelect(index) {
 		Current.setBorder(Options.currentCSS());
 		Selections.setActive(index);
@@ -36,7 +45,8 @@
 	}
 
 	function onMouseDown(e) {
-		var target = e.target;
+		var target = e.target,
+			node;
 		
 		Overlay.hide();
 		Screen.hide();
@@ -45,12 +55,10 @@
 
 		if (control.isOn('select')) {
 			Selections.addElement(target);
-		} else if (control.isOn('remove')) {
-			Selections.removeElement(target) ||
-			Selections.removeElement(target.parentNode) ||
-			Selections.removeElement(target.parentNode.parentNode);
 		} else {
-			Selections.addNegative(target);
+			node = hasOrIsChildElement(Selections, target);
+			if (node) Selections.removeElement(node);
+			else Selections.addNegative(target);
 		}
 
 		Selections.extrapolate();
@@ -59,9 +67,7 @@
 	function onMouseMove(e) {
 		var Confirmed = Selections.Confirmed,
 			target = e.target,
-			highlighter = Confirmed.has(target) ||
-							Confirmed.has(target.parentNode) ||
-							Confirmed.has(target.parentNode.parentNode);
+			highlighter = hasOrIsChildElement(Confirmed, target);
 
 		// Reset the color of the last element that was targeted for removal
 		if (lastHighlighter) {
@@ -74,12 +80,12 @@
 
 		if (control.isOn('select')) {
 			Current.highlightElement(target);
-		} else if (control.isOn('remove')) {
-			if (!highlighter) return;
+		} else if (!highlighter) {
+			Negative.highlightElement(target);
+		} else {
+			highlighter = Confirmed.has(highlighter);
 			highlighter.setIdentifier(settings.removedClass);
 			lastHighlighter = highlighter;
-		} else {
-			Negative.highlightElement(target);
 		}
 	}
 
@@ -103,7 +109,7 @@
 	}
 
 	var lastHighlighter = null,
-		validStates = ['select', 'remove', 'negative'],
+		validStates = ['select', 'remove'],
 		currentColor = Dropdown.toCSSColor(settings.initialColor);
 	
 	var modifierDown = false;
@@ -118,7 +124,6 @@
 	
 	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
 	control.addToggle('remove', 'Stop', 'Remove');
-	control.addToggle('negative', 'Stop', 'Negative');
 	control.addButton('Get Text', showText);
 	control.addButton('Add selection', addSelection);
 	control.addButton('Close', window.toggle);
