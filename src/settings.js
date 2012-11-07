@@ -1,6 +1,7 @@
 window.settings = {
 	threshold : 2,
 	bubbleDepth : 3,
+	fingerprintDepth : 3,
 	similarityThreshold : 350,
 	initialColor : { r : 0, g : 0, b : 0 },
 	copyMessage : 'Press ' + ($.isMacOs ? 'Cmd' : 'Ctrl') + '-C to copy',

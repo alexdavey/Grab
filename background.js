@@ -4,7 +4,7 @@
 
 var tabs = chrome.tabs;
 
-var js = ['dom', 'grab', 'settings', 'highlighter', 'selection',
+var js = ['utility', 'dom', 'grab', 'settings', 'highlighter', 'selection',
 			'collection', 'dropdown', 'popup', 'control', 'main'];
 
 var visitedTabs = {};
@@ -16,6 +16,7 @@ function toggleControl() {
 function insertExtension() {
 	tabs.insertCSS(null, { file : 'src/ui.css' });
 	tabs.executeScript(null, { file : 'lib/underscore.js' });
+	tabs.executeScript(null, { file : 'lib/cycle.js' });
 
 	for (var i = 0, l = js.length; i < l; i++) {
 		tabs.executeScript(null, { file : 'src/' + js[i] + '.js' });

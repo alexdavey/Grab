@@ -12,6 +12,29 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 		return _.chain(collection).pluck('elements').reduce(concat).value();
 	}
 
+	function nDeep(n, object) {
+		var tree = {};
+		if (n === 1) return _.isObject(object) ? object.toString() : object;
+		for (var i in object) {
+			if (!object.hasOwnProperty(i)) continue;
+			tree[i] = _.isObject(object[i]) ? nDeep(n - 1, object[i]) : object[i];
+		}
+		return tree;
+	}
+
+	function preProcess(domTree) {
+		var model = prune(domTree);
+
+		model = {
+			zeros : _.keys(_.filterObject(model, _.equals(0))).join(','),
+			others : _.filterObject(model, _.not(_.equals(0)))
+		};
+
+		return model;
+	}
+
+	var prune = _.bind(nDeep, null, settings.fingerprintDepth);
+
 	function Collection(border) {
 
 		if (!(this instanceof Collection)) {
@@ -27,17 +50,22 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 	Collection.prototype = {
 
 		extrapolate : function () {
+			var confirmed = this.Confirmed.elements,
+				negative = this.Negative.elements;
+
 			this.Extrapolated.clear();
 
 			if (this.Confirmed.size() < settings.threshold) return;
 
-			var same = grab.same(this.Confirmed.elements),
-				negative = grab.same(this.Negative.elements),
+			var same = grab.same(confirmed),
+				negative = grab.same(negative),
 				blacklist = grab.subtract(same, negative),
-				elements = grab.find(grab.toModel(same), blacklist),
-				extrapolated = _.difference(elements,
-									this.Confirmed.elements,
-									this.Negative.elements);
+				elements = grab.find(same, blacklist),
+				extrapolated = _.difference(elements, confirmed, negative);
+
+			this.lastModel = { positive : same, negative : blacklist };
+
+			this.fingerprint();
 
 			_.each(extrapolated, this.Extrapolated.add, this.Extrapolated);
 		},
@@ -92,9 +120,8 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 
 		getText : function () {
 			if (this.Confirmed.size() < settings.threshold) return;
-			var active = this.Confirmed.elements,
-				extrapolated = this.Extrapolated.elements,
-				ordered = grab.order(active.concat(extrapolated));
+			var ordered = grab.order(
+					this.Confirmed.elements.concat(this.Extrapolated.elements));
 			return grab.data(ordered);
 		},
 
@@ -109,6 +136,19 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 			_.invoke(this.ExtrapolatedList, 'reHighlight');
 			_.invoke(this.ConfirmedList, 'reHighlight');
 			_.invoke(this.NegativeList, 'reHighlight');
+		},
+
+		fingerprint : function () {
+			var tree = {
+				positive : preProcess(this.lastModel.positive),
+				negative : preProcess(this.lastModel.negative)
+			};
+
+			return JSON.stringify(JSON.decycle(tree));
+		},
+
+		fromFingerprint : function (fingerprint) {
+			return JSON.decycle(JSON.parse(fingerprint));
 		}
 		
 	};
