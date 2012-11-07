@@ -6,30 +6,9 @@ window.grab = (function (window, document, $, undefined) {
 	// of the node, but confuse the matching function
 	var blacklist = ['protocol'];
 
-	var debug = false;
-
-	function inBlacklist(value, key) {
+	function notInBlacklist(value, key) {
 		return !_.contains(blacklist, key);
 	}
-
-	// Functions identically to _.filter except returns an object
-	function filterObject(object, predicate) {
-		var clone = {};
-		_.each(object, function (value, key) {
-			if (predicate(value, key)) clone[key] = value;
-		});
-		return clone;
-	}
-
-	// function intersect(base, model, value, key) {
-	// 	if (_.isUndefined(model[key])) delete base[key];
-	// 	else if (_.isObject(value) && _.isObject(model[key])) {
-	// 		_.each(value, function(value, key) {
-	// 			intersect(base[key], model[key], key, value);
-	// 		});
-	// 	}
-	// 	else if (model[key] !== value) delete base[key];
-	// }
 
 	function compare(base, models, iterator) {
 		_.each(models, function (model) {
@@ -45,8 +24,8 @@ window.grab = (function (window, document, $, undefined) {
 		// removed, first by removing any keys in the blacklist, then any
 		// undefined/null or empty string values
 		toModel : function (node) {
-			var filtered = filterObject(node, inBlacklist);
-			return filterObject(filtered, function (value, key) {
+			var filtered = _.filterObject(node, notInBlacklist);
+			return _.filterObject(filtered, function (value, key) {
 				return (value !== null && value !== undefined && value !== "") &&
 					(_.isObject(value) || _.isString(value) || _.isNumber(value));
 			});
