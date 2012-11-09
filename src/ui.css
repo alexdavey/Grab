@@ -29,17 +29,21 @@
 
 .grab-dropdownChild {
 	height : 20px;
+	width : 100%;
 }
 
 .grab-popup {
-	opacity : 1;
+	font-family : Verdana, Arial, Sans;
+	font-size : 14px;
+	color : white;
 	z-index : 99999;
 	position : fixed;
 	top : 50%;
 	left : 50%;
 	padding : 10px;
-	background : rgba(0, 0, 0, 0.8);
+	background : black;
 	-webkit-border-radius : 5px;
+	opacity : 0.7;
 }
 
 #grab-controls textarea {
