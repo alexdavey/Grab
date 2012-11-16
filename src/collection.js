@@ -33,6 +33,10 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 		return model;
 	}
 
+	function arrange(texts) {
+		return _.map(texts, _.trim).join('\n');
+	}
+
 	var prune = _.bind(nDeep, null, settings.fingerprintDepth);
 
 	function Collection(border) {
@@ -122,14 +126,14 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 			if (this.Confirmed.size() < settings.threshold) return;
 			var ordered = grab.order(
 					this.Confirmed.elements.concat(this.Extrapolated.elements));
-			return grab.data(ordered);
+			return arrange(grab.data(ordered));
 		},
 
 		getAllText : function () {
 			var active = allElements(this.ConfirmedList),
 				extrapolated = allElements(this.ExtrapolatedList),
 				ordered = grab.order(active.concat(extrapolated));
-			return grab.data(ordered);
+			return arrange(grab.data(ordered));
 		},
 
 		reHighlight : function () {

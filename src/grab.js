@@ -73,7 +73,7 @@ window.grab = (function (window, document, $, undefined) {
 		// removed and the lines remaining joined with newlines
 		data : function (elements) {
 			return _.chain(elements).pluck('innerText')
-					.reject(_.isEmpty).value().join('\n');
+					.reject(_.isEmpty).value();
 		},
 
 		// Extracts a list of potential matches based on the properties of

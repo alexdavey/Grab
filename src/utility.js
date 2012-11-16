@@ -21,6 +21,11 @@ _.mixin({
 		return function () {
 			return !fn.apply(null, _.toArray(arguments));
 		};
+	},
+
+	trim : function (string) {
+		if (_.isObject(String.prototype.trim)) return string.trim();
+		return string.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 	}
 	
 });
