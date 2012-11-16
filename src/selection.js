@@ -29,7 +29,7 @@ window.Selection = (function (window, document, undefined) {
 		},
 
 		add : function (element) {
-			if (this.has(element)) return;
+			if (this.has(element) || element.style.display == 'none') return;
 			var Selected = Highlighter(this.identifier, element, this.border);
 			this.elements.push(element);
 			this.highlighters.push(Selected);

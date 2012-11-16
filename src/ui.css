@@ -28,8 +28,12 @@
 }
 
 .grab-dropdownChild {
+	margin : 0;
+	padding : 0;
+	float : left;
+	float : left;
 	height : 20px;
-	width : 100%;
+	width : 250px;
 }
 
 .grab-popup {
