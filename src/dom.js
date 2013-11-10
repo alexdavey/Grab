@@ -19,6 +19,7 @@
 		},
 
 		createElement : function (parentNode, name, text, styles) {
+			// The text (and styles) parameters are optional
 			if (!_.isString(text)) {
 				styles = text;
 				text = '';

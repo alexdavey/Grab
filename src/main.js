@@ -97,7 +97,18 @@
 		if (e.keyCode == 17 || e.keyCode == 91) modifierDown = false;
 	}
 
+	function openLinks() {
+		var links = Selections.getLinks();
+		_.each(links, function (url) {
+			window.open(url, '_blank');
+			// window.focus();
+		});
+	}
+
 	function showText() {
+		var Boxes = new Arrangement(Selections.getAllElements());
+		console.log('BOXES');
+		console.log(Boxes.guessType());
 		clipboard.value = Selections.getAllText() || '';
 		Overlay.setText(settings.copyMessage);
 	}
@@ -119,6 +130,7 @@
 	control.addToggle('select', 'Stop', 'Select', Current.show, Current.hide, Current);
 	control.addToggle('remove', 'Stop', 'Remove');
 	control.addButton('Get Text', showText);
+	control.addButton('Open Links', openLinks);
 	control.addButton('Add selection', addSelection);
 	control.addButton('Close', window.toggle);
 	control.onToggle(_.bind(control.setAll, null, 'off'));

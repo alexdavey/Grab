@@ -18,6 +18,11 @@ window.grab = (function (window, document, $, undefined) {
 		});
 	}
 
+	function extractLinks(element) {
+		if (element.tagName == 'A') return element.href || [];
+		return _(element.links).pluck('href').reject(_.isEmpty);
+	}
+
 	var grab = {
 			
 		// Reduces a node to a simple object with all superfluous values
@@ -69,11 +74,15 @@ window.grab = (function (window, document, $, undefined) {
 			};
 		},
 
-		// Returns the innerText values of all of elements, with empty lines
-		// removed and the lines remaining joined with newlines
-		data : function (elements) {
+		// Returns the innerText values of all of elements, empty lines removed
+		text : function (elements) {
 			return _.chain(elements).pluck('innerText')
 					.reject(_.isEmpty).value();
+		},
+
+		// Returns the hrefs of all any nested links
+		urls : function (elements) {
+			return _.map(elements, extractLinks);
 		},
 
 		// Extracts a list of potential matches based on the properties of

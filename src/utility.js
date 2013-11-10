@@ -10,6 +10,14 @@ _.mixin({
 		});
 		return clone;
 	},
+
+	mapObject : function (object, iterator) {
+		var clone = {};
+		_.each(object, function (value, key) {
+			clone[key] = iterator(value, key);
+		});
+		return clone;
+	},
 	
 	equals : function (a) {
 		return function (b) {
@@ -26,6 +34,10 @@ _.mixin({
 	trim : function (string) {
 		if (_.isObject(String.prototype.trim)) return string.trim();
 		return string.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+	},
+
+	constant : function (value) {
+		return _.bind(_.identity, _, value);
 	}
 	
 });

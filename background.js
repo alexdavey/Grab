@@ -5,7 +5,7 @@
 var tabs = chrome.tabs;
 
 var js = ['utility', 'dom', 'grab', 'settings', 'highlighter', 'selection',
-			'collection', 'dropdown', 'popup', 'control', 'main'];
+			'collection', 'dropdown', 'popup', 'control', 'boxes', 'main'];
 
 var visitedTabs = {};
 

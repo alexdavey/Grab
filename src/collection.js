@@ -122,18 +122,31 @@ window.Collection = (function (window, document, Selection, grab, undefined) {
 			this.Negative = this.NegativeList[index];
 		},
 
-		getText : function () {
+		getElements : function () {
 			if (this.Confirmed.size() < settings.threshold) return;
-			var ordered = grab.order(
-					this.Confirmed.elements.concat(this.Extrapolated.elements));
-			return arrange(grab.data(ordered));
+			return grab.order(this.Confirmed.elements.concat(this.Extrapolated.elements));
+		},
+		 
+		getAllElements : function () {
+			var active = allElements(this.ConfirmedList),
+				extrapolated = allElements(this.ExtrapolatedList);
+			return grab.order(active.concat(extrapolated));
+		},
+
+		// TODO: Remove duplication
+		getLinks : function () {
+			var elements = this.getAllElements();
+			return grab.urls(elements);
+		},
+
+		getText : function () {
+			var elements = this.getElements();
+			return arrange(grab.text(elements));
 		},
 
 		getAllText : function () {
-			var active = allElements(this.ConfirmedList),
-				extrapolated = allElements(this.ExtrapolatedList),
-				ordered = grab.order(active.concat(extrapolated));
-			return arrange(grab.data(ordered));
+			var elements = this.getAllElements();
+			return arrange(grab.text(elements));
 		},
 
 		reHighlight : function () {
